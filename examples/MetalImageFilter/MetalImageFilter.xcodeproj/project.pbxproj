@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0D5BF15D1D56DC0000EE3A2D /* imgGray.metal in Resources */ = {isa = PBXBuildFile; fileRef = 0D5BF15C1D56DC0000EE3A2D /* imgGray.metal */; };
+		0D6761BE1D51A08D00B0633C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6761BD1D51A08D00B0633C /* main.m */; };
+		0D6761C11D51A08D00B0633C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6761C01D51A08D00B0633C /* AppDelegate.m */; };
+		0D6761C41D51A08D00B0633C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6761C31D51A08D00B0633C /* ViewController.m */; };
+		0D6761C71D51A08D00B0633C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D6761C51D51A08D00B0633C /* Main.storyboard */; };
+		0D6761C91D51A08D00B0633C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D6761C81D51A08D00B0633C /* Assets.xcassets */; };
+		0D6761CC1D51A08D00B0633C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D6761CA1D51A08D00B0633C /* LaunchScreen.storyboard */; };
+		0D6761E51D51A21B00B0633C /* libMetalImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6761E41D51A21100B0633C /* libMetalImage.a */; };
+		0D6761E81D51A48200B0633C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6761E71D51A48200B0633C /* AVFoundation.framework */; };
+		0D6761EA1D51A7CE00B0633C /* imageQuad.metal in Resources */ = {isa = PBXBuildFile; fileRef = 0D6761E91D51A7CE00B0633C /* imageQuad.metal */; };
+		0D6761EC1D51D29700B0633C /* sandHouse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D6761EB1D51D29700B0633C /* sandHouse.jpg */; };
+		0D6761EE1D51D3BA00B0633C /* imgGaussian.metal in Resources */ = {isa = PBXBuildFile; fileRef = 0D6761ED1D51D3BA00B0633C /* imgGaussian.metal */; };
+		0DC5B1A91D59731A0032E81A /* baseFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0DC5B1A81D59731A0032E81A /* baseFilter.metal */; };
+		0DC5B1E41D59D3340032E81A /* imgBrightness.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0DC5B1E31D59D3340032E81A /* imgBrightness.metal */; };
+		0DC5B1E71D59DF080032E81A /* JonSnow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0DC5B1E61D59DF080032E81A /* JonSnow.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0D6761E11D51A21100B0633C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D6761DC1D51A21100B0633C /* MetalImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D924F9E1D2E9BBC00D099E6;
+			remoteInfo = MetalImageFramework;
+		};
+		0D6761E31D51A21100B0633C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D6761DC1D51A21100B0633C /* MetalImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D380B5A1D37434100AF24EE;
+			remoteInfo = MetalImage;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0D5BF15C1D56DC0000EE3A2D /* imgGray.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = imgGray.metal; path = ../../MetalImage/MetalImage/Shaders/imgGray.metal; sourceTree = "<group>"; };
+		0D6761B91D51A08D00B0633C /* MetalImageFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalImageFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D6761BD1D51A08D00B0633C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0D6761BF1D51A08D00B0633C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0D6761C01D51A08D00B0633C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0D6761C21D51A08D00B0633C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0D6761C31D51A08D00B0633C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0D6761C61D51A08D00B0633C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0D6761C81D51A08D00B0633C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0D6761CB1D51A08D00B0633C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0D6761CD1D51A08D00B0633C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D6761DC1D51A21100B0633C /* MetalImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetalImage.xcodeproj; path = ../../MetalImage/MetalImage.xcodeproj; sourceTree = "<group>"; };
+		0D6761E71D51A48200B0633C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0D6761E91D51A7CE00B0633C /* imageQuad.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = imageQuad.metal; path = ../../MetalImage/MetalImage/Shaders/imageQuad.metal; sourceTree = "<group>"; };
+		0D6761EB1D51D29700B0633C /* sandHouse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sandHouse.jpg; path = MetalImageFilter/sandHouse.jpg; sourceTree = "<group>"; };
+		0D6761ED1D51D3BA00B0633C /* imgGaussian.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = imgGaussian.metal; path = ../../MetalImage/MetalImage/Shaders/imgGaussian.metal; sourceTree = "<group>"; };
+		0DC5B1A81D59731A0032E81A /* baseFilter.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = baseFilter.metal; path = ../../MetalImage/MetalImage/Shaders/baseFilter.metal; sourceTree = "<group>"; };
+		0DC5B1E31D59D3340032E81A /* imgBrightness.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgBrightness.metal; path = ../../MetalImage/MetalImage/Shaders/imgBrightness.metal; sourceTree = "<group>"; };
+		0DC5B1E61D59DF080032E81A /* JonSnow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = JonSnow.jpg; path = MetalImageFilter/JonSnow.jpg; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0D6761B61D51A08D00B0633C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D6761E81D51A48200B0633C /* AVFoundation.framework in Frameworks */,
+				0D6761E51D51A21B00B0633C /* libMetalImage.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0D6761B01D51A08D00B0633C = {
+			isa = PBXGroup;
+			children = (
+				0DC5B1E51D59DEF00032E81A /* Resources */,
+				0D6761DC1D51A21100B0633C /* MetalImage.xcodeproj */,
+				0D6761BB1D51A08D00B0633C /* MetalImageFilter */,
+				0D6761BA1D51A08D00B0633C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0D6761BA1D51A08D00B0633C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0D6761B91D51A08D00B0633C /* MetalImageFilter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0D6761BB1D51A08D00B0633C /* MetalImageFilter */ = {
+			isa = PBXGroup;
+			children = (
+				0D6761BF1D51A08D00B0633C /* AppDelegate.h */,
+				0D6761C01D51A08D00B0633C /* AppDelegate.m */,
+				0D6761C21D51A08D00B0633C /* ViewController.h */,
+				0D6761C31D51A08D00B0633C /* ViewController.m */,
+				0D6761C51D51A08D00B0633C /* Main.storyboard */,
+				0D6761C81D51A08D00B0633C /* Assets.xcassets */,
+				0D6761CA1D51A08D00B0633C /* LaunchScreen.storyboard */,
+				0D6761CD1D51A08D00B0633C /* Info.plist */,
+				0D6761BC1D51A08D00B0633C /* Supporting Files */,
+			);
+			path = MetalImageFilter;
+			sourceTree = "<group>";
+		};
+		0D6761BC1D51A08D00B0633C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0D6761E71D51A48200B0633C /* AVFoundation.framework */,
+				0D6761BD1D51A08D00B0633C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0D6761DD1D51A21100B0633C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0D6761E21D51A21100B0633C /* MetalImageFramework.framework */,
+				0D6761E41D51A21100B0633C /* libMetalImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0DC5B1E51D59DEF00032E81A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0DC5B1E61D59DF080032E81A /* JonSnow.jpg */,
+				0DC5B1E31D59D3340032E81A /* imgBrightness.metal */,
+				0DC5B1A81D59731A0032E81A /* baseFilter.metal */,
+				0D5BF15C1D56DC0000EE3A2D /* imgGray.metal */,
+				0D6761ED1D51D3BA00B0633C /* imgGaussian.metal */,
+				0D6761EB1D51D29700B0633C /* sandHouse.jpg */,
+				0D6761E91D51A7CE00B0633C /* imageQuad.metal */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0D6761B81D51A08D00B0633C /* MetalImageFilter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D6761D01D51A08D00B0633C /* Build configuration list for PBXNativeTarget "MetalImageFilter" */;
+			buildPhases = (
+				0D6761B51D51A08D00B0633C /* Sources */,
+				0D6761B61D51A08D00B0633C /* Frameworks */,
+				0D6761B71D51A08D00B0633C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MetalImageFilter;
+			productName = MetalImageFilter;
+			productReference = 0D6761B91D51A08D00B0633C /* MetalImageFilter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0D6761B11D51A08D00B0633C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = xuqing;
+				TargetAttributes = {
+					0D6761B81D51A08D00B0633C = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 0D6761B41D51A08D00B0633C /* Build configuration list for PBXProject "MetalImageFilter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0D6761B01D51A08D00B0633C;
+			productRefGroup = 0D6761BA1D51A08D00B0633C /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0D6761DD1D51A21100B0633C /* Products */;
+					ProjectRef = 0D6761DC1D51A21100B0633C /* MetalImage.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				0D6761B81D51A08D00B0633C /* MetalImageFilter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0D6761E21D51A21100B0633C /* MetalImageFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MetalImageFramework.framework;
+			remoteRef = 0D6761E11D51A21100B0633C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0D6761E41D51A21100B0633C /* libMetalImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMetalImage.a;
+			remoteRef = 0D6761E31D51A21100B0633C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0D6761B71D51A08D00B0633C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DC5B1E71D59DF080032E81A /* JonSnow.jpg in Resources */,
+				0D5BF15D1D56DC0000EE3A2D /* imgGray.metal in Resources */,
+				0D6761EE1D51D3BA00B0633C /* imgGaussian.metal in Resources */,
+				0D6761EC1D51D29700B0633C /* sandHouse.jpg in Resources */,
+				0D6761EA1D51A7CE00B0633C /* imageQuad.metal in Resources */,
+				0D6761CC1D51A08D00B0633C /* LaunchScreen.storyboard in Resources */,
+				0D6761C91D51A08D00B0633C /* Assets.xcassets in Resources */,
+				0D6761C71D51A08D00B0633C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D6761B51D51A08D00B0633C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DC5B1E41D59D3340032E81A /* imgBrightness.metal in Sources */,
+				0D6761C41D51A08D00B0633C /* ViewController.m in Sources */,
+				0D6761C11D51A08D00B0633C /* AppDelegate.m in Sources */,
+				0DC5B1A91D59731A0032E81A /* baseFilter.metal in Sources */,
+				0D6761BE1D51A08D00B0633C /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0D6761C51D51A08D00B0633C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0D6761C61D51A08D00B0633C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0D6761CA1D51A08D00B0633C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0D6761CB1D51A08D00B0633C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0D6761CE1D51A08D00B0633C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		0D6761CF1D51A08D00B0633C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0D6761D11D51A08D00B0633C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
+				INFOPLIST_FILE = MetalImageFilter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = erickingxu.MetalImageFilter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0D6761D21D51A08D00B0633C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
+				INFOPLIST_FILE = MetalImageFilter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = erickingxu.MetalImageFilter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0D6761B41D51A08D00B0633C /* Build configuration list for PBXProject "MetalImageFilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D6761CE1D51A08D00B0633C /* Debug */,
+				0D6761CF1D51A08D00B0633C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D6761D01D51A08D00B0633C /* Build configuration list for PBXNativeTarget "MetalImageFilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D6761D11D51A08D00B0633C /* Debug */,
+				0D6761D21D51A08D00B0633C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0D6761B11D51A08D00B0633C /* Project object */;
+}

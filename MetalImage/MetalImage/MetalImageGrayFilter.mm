@@ -1,0 +1,31 @@
+//
+//  MetalImageGrayFilter.m
+//  MetalImage
+//
+//  Created by xuqing on 12/7/2016.
+//  Copyright © 2016 xuqing. All rights reserved.
+//
+
+#import "MetalImageGrayFilter.h"
+
+
+@implementation MetalImageGrayFilter
+
+-(id)init
+{
+        METAL_PIPELINE_STATE peline ;
+        peline.depthPixelFormat   =  MTLPixelFormatDepth32Float;
+        peline.stencilPixelFormat =  MTLPixelFormatInvalid;
+        peline.orient             =  kMetalImageNoRotation;
+        peline.sampleCount        =  1;
+        peline.computeFuncNameStr =  @"grayscale";
+    if (!(self = [super initWithMetalPipeline:&peline]))
+    {
+        return nil;
+    }
+
+    return self;
+}
+
+
+@end

@@ -119,7 +119,7 @@ static const simd::float2 rotate180TextureCoordinates[kCntQuadTexCoords] = {
     MetalImageTexture*          _outputTextrue;
     
     id <MTLRenderPipelineState> _pipelineState;
-    
+
     id <MTLDepthStencilState>   _depthStencilState;
     
     
@@ -263,7 +263,7 @@ static const simd::float2 rotate180TextureCoordinates[kCntQuadTexCoords] = {
 
     [renderEncoder setRenderPipelineState:_pipelineState];
 
-    // tell the render context we want to draw our primitives
+    // tell the render context we want to draw our primitiv the listening all noes
     [renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:6 instanceCount:1];
     
     [renderEncoder endEncoding];

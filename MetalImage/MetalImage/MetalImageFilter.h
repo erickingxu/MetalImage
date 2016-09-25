@@ -28,6 +28,13 @@ METAL_PIPELINE_STATE;
     MetalImageTexture*      firstInputTexture;
     MetalImageCmdQueue*     filterCommandQueue;
     id <MTLComputePipelineState>    _caclpipelineState;
+    
+    id <MTLRenderPipelineState>     _renderpipelineState;
+    MTLRenderPipelineDescriptor*    renderplineStateDescriptor;
+    MTLRenderPassDescriptor*        renderPassDescriptor;
+    
+    id <MTLDepthStencilState>       _depthStencilState;
+    MTLDepthStencilDescriptor*      renderDepthStateDesc;
     //Compute kernel parameters
     MTLSize                         _threadGroupSize;
     MTLSize                         _threadGroupCount;

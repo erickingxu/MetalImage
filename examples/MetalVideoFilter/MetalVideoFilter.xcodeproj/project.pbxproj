@@ -178,7 +178,7 @@
 				TargetAttributes = {
 					0D3195D31D5B2F2B00451566 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = HCAG6RSD4W;
+						DevelopmentTeam = PVE2WH4PE2;
 					};
 				};
 			};
@@ -367,6 +367,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PVE2WH4PE2;
 				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
 				INFOPLIST_FILE = MetalVideoFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -374,7 +375,7 @@
 					"-lstdc++",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yy.MetalVideoFilter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ericking.MetalVideoFilter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -386,6 +387,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PVE2WH4PE2;
 				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
 				INFOPLIST_FILE = MetalVideoFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -393,7 +395,7 @@
 					"-lstdc++",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yy.MetalVideoFilter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ericking.MetalVideoFilter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

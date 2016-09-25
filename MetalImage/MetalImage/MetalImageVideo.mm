@@ -181,7 +181,7 @@ static const long kMAXBUFFERBYTESPERFRAME       =  1024*1024;
     _videoOuptTexture                       = [[MetalImageTexture alloc] init];//no need to allocate new memory from device
     
     [self caculateVideowithCmdBuffer:videocmdBuffer];
-    // create a render command encoder so we can render into something
+    // create a render command encoder so we can render something on it
     if (videocmdBuffer && _videoTexture)
     {
         [super filterRender:metalView withDrawableTexture:_videoOuptTexture inCommandBuffer:videocmdBuffer];

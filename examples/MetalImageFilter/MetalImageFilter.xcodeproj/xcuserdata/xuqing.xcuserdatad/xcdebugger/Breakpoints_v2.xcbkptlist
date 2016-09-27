@@ -270,7 +270,7 @@
             startingLineNumber = "39"
             endingLineNumber = "39"
             landmarkName = "-setupFilterImageDisplay"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -332,23 +332,7 @@
             startingLineNumber = "30"
             endingLineNumber = "30"
             landmarkName = "-init"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../MetalImage/MetalImage/MetalImageGaussianFilter.mm"
-            timestampString = "492429190.692212"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "-caculateWithCommandBuffer:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -364,7 +348,7 @@
             startingLineNumber = "47"
             endingLineNumber = "47"
             landmarkName = "-setupFilterImageDisplay"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

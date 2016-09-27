@@ -7,7 +7,7 @@
 //
 
 #import "MetalImageFilter.h"
-#import <simd/simd.h>
+
 
 #define kCntQuadTexCoords   6
 
@@ -28,9 +28,9 @@
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
-    peline.computeFuncNameStr = @"basePass";
-    peline.vertexFuncNameStr  = @""; //imageQuadVertex";
-    peline.fragmentFuncNameStr= @""; //imageQuadFragment";
+    peline.computeFuncNameStr = @""; //"basePass";
+    peline.vertexFuncNameStr  = @"imageQuadVertex";
+    peline.fragmentFuncNameStr= @"imageQuadFragment";
     if ( !(self = [self initWithMetalPipeline: &peline]) || !_filterDevice)
     {
         return nil;
@@ -61,8 +61,8 @@
     firstInputTexture   = nil;
     outputTexture       = nil;
     inputRotation       = pline->orient;
-    renderplineStateDescriptor = nil;
-    renderDepthStateDesc = nil;
+    renderplineStateDescriptor = [MTLRenderPipelineDescriptor new];
+    renderDepthStateDesc = [MTLDepthStencilDescriptor new];
     
     if (![self preparePipelineState:pline] )
     {
@@ -85,17 +85,14 @@
         }
     }
     NSError *pError = nil;
-    if ([filterPipelineState->computeFuncNameStr isEqualToString:@""])
+    if ([filterPipelineState->computeFuncNameStr isEqualToString:@""] && ![filterPipelineState->fragmentFuncNameStr isEqualToString:@""])
     {///just do render pipeline, no compute encoder...
-        renderplineStateDescriptor = [MTLRenderPipelineDescriptor new];
-        renderDepthStateDesc = [MTLDepthStencilDescriptor new];
-        
         id <MTLFunction> vetexFunc = [_filterLibrary newFunctionWithName:filterPipelineState->vertexFuncNameStr];
         id <MTLFunction> fragFunc  = [_filterLibrary newFunctionWithName:filterPipelineState->fragmentFuncNameStr];
        
         renderplineStateDescriptor.depthAttachmentPixelFormat   = MTLPixelFormatInvalid;//filterPipelineState->depthPixelFormat;
         renderplineStateDescriptor.stencilAttachmentPixelFormat = filterPipelineState->stencilPixelFormat;
-        renderplineStateDescriptor.colorAttachments[0].pixelFormat= MTLPixelFormatRGBA8Unorm;
+        renderplineStateDescriptor.colorAttachments[0].pixelFormat= MTLPixelFormatBGRA8Unorm;
         renderplineStateDescriptor.sampleCount                  = filterPipelineState->sampleCount;
         renderplineStateDescriptor.vertexFunction               = vetexFunc;
         renderplineStateDescriptor.fragmentFunction             = fragFunc;
@@ -252,7 +249,7 @@
 {
     if (nil == renderPassDescriptor)//could be resue....
     {
-        return NO; //renderPassDescriptor       = [MTLRenderPassDescriptor renderPassDescriptor];
+        renderPassDescriptor       = [MTLRenderPassDescriptor renderPassDescriptor];
     }
     MTLRenderPassColorAttachmentDescriptor    *colorAttachment  = renderPassDescriptor.colorAttachments[0];
     colorAttachment.texture         = textureForOutput;//target for draw
@@ -293,7 +290,7 @@
             
             [renderEncoder pushDebugGroup:@"base_filter_render_encoder"];
             [renderEncoder setDepthStencilState:_depthStencilState];
-            [renderEncoder setFragmentTexture:firstInputTexture.texture atIndex:0];
+            [renderEncoder setFragmentTexture:firstInputTexture.texture atIndex:0];//first render pass for next pass using...
             [renderEncoder setVertexBuffer:_verticsBuffer  offset:0  atIndex: 0 ];
             [renderEncoder setVertexBuffer:_coordBuffer offset:0  atIndex: 1];
             
@@ -340,7 +337,7 @@
     {
         _renderpipelineState = nil;//cant render sth on ouputTexture...
     }
-    //outputTexture  = firstInputTexture;
+ 
     //set output texture and draw reslut to it
     _verticsBuffer = [_filterDevice newBufferWithBytes:vertices length:kCntQuadTexCoords*sizeof(simd::float4) options:MTLResourceOptionCPUCacheModeDefault];
     

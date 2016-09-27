@@ -22,10 +22,10 @@
         
     _width = _height = 0;
     _depth = 1;
-    _pixelFormat = MTLPixelFormatRGBA8Unorm;
+    _pixelFormat = MTLPixelFormatBGRA8Unorm;
     _target   = MTLTextureType2D;
 	_texture   = nil;
-    _flip = NO;
+    _flip = YES;
     return self;
 }
 
@@ -41,7 +41,7 @@
     _width = imgWidth;
     _height = imgHeight;
     _depth = 1;
-    _pixelFormat = MTLPixelFormatRGBA8Unorm;
+    _pixelFormat = MTLPixelFormatBGRA8Unorm;
     _target   = MTLTextureType2D;
     
     _texture   = nil;
@@ -73,7 +73,7 @@
     }
 
     _depth = 1;
-    _pixelFormat = MTLPixelFormatRGBA8Unorm;
+    _pixelFormat = MTLPixelFormatBGRA8Unorm;
     _target   = MTLTextureType2D;
     
     _texture   = nil;
@@ -223,7 +223,7 @@
     CGContextDrawImage( context, CGRectMake( 0, 0, self.width, self.height ), image.CGImage );
     
     unsigned Npixels = self.width * self.width;
-    MTLTextureDescriptor *texDesc = [MTLTextureDescriptor textureCubeDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm size:self.width mipmapped:NO];
+    MTLTextureDescriptor *texDesc = [MTLTextureDescriptor textureCubeDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm size:self.width mipmapped:NO];
     self.target = texDesc.textureType;
     self.texture = [device newTextureWithDescriptor:texDesc];
     if (!self.texture)

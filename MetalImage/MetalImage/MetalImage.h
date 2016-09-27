@@ -23,5 +23,7 @@
 #import "MetalImageContrastFilter.h"
 #import "MetalImageSaturationFilter.h"
 #import "MetalImageBeautyFilter.h"
+#import "MetalImageGammaFilter.h"
+#import "MetalImageLuminanceFilter.h"
 
 

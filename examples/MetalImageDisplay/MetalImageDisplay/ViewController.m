@@ -19,7 +19,7 @@
     BOOL                _firstDrawOccurred;
     CFTimeInterval      _timeSinceLastDrawPreviousTime;
     BOOL                _gameLoopPaused;
-    MetalImageFilter    *_filter;
+    MetalImageCustomFilter    *_filter;
 }
 
 -(id)init
@@ -64,8 +64,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
-    MetalImageView *renderView2     = (MetalImageView*)self.view;
-    renderView2.filterDelegate      = (MetalImageBrightnessFilter*)_filter;
+    MetalImageCustomView *renderView2     = (MetalImageCustomView*)self.view;
+    renderView2.filterDelegate      = (MetalImageCustomFilter*)_filter;
     renderView2.depthPixelFormat    = MTLPixelFormatDepth32Float;
     renderView2.stencilPixelFormat  = MTLPixelFormatInvalid;
     renderView2.sampleCount         = 1;
@@ -76,10 +76,11 @@
     plinestate.sampleCount                  = 1;
     plinestate.vertexFuncNameStr            = @"imageQuadVertex";
     plinestate.fragmentFuncNameStr          = @"imageQuadFragment";
-    plinestate.computeFuncNameStr           = @"brightness";
+    plinestate.computeFuncNameStr           = @"";
     plinestate.textureImagePath             = picPath;
+    plinestate.orient                       = MetalOrientationUnknown;
     [_filter configure:&plinestate];
-    [(MetalImageView *)self.view display];
+    [(MetalImageCustomView *)self.view display];
 }
 
 
@@ -211,7 +212,7 @@
 
 -(void)initCommon
 {
-    _filter = [MetalImageBrightnessFilter new];
+    _filter = [MetalImageCustomFilter new];
     //  Register notifications to start/stop drawing as this app moves into the background
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(didEnterBackground:)

@@ -37,7 +37,7 @@ fragment half4 imageQuadFragment(VertexInOut inFrag[[ stage_in ]], texture2d<hal
     constexpr sampler qsampler;
     //float r = inFrag.m_TexCoord.x;
     //float g = inFrag.m_TexCoord.y;
-    half4 color = tex2D.sample(qsampler, inFrag.m_TexCoord);//half4(r, 0.0, 0.0, 1.0);//
+    half4 color = tex2D.sample(qsampler, inFrag.m_TexCoord);//half4(r, 0.0, 0.0, 1.0);
     
     return color;
 }

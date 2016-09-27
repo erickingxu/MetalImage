@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MetalImageOutput.h"
+#import <simd/simd.h>
 
 typedef struct filterPipelineState
 {
@@ -59,5 +60,5 @@ METAL_PIPELINE_STATE;
 ////////////////////////Rendering//////////////////////////
 - (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime;
 - (CGSize)outputFrameSize;
-
+-(BOOL)initRenderPassDescriptorFromTexture:(id <MTLTexture>)textureForOutput;
 @end

@@ -340,7 +340,7 @@ static const simd::float2 rotate180TextureCoordinates[kCntQuadTexCoords] = {
     _inputTextrue = [[MetalImageTexture alloc] initWithResource:sourcePath];
     [_inputTextrue loadTextureIntoDevice:_imgfilterDevice];
     
-    MTLTextureDescriptor *pTexDescp = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:_inputTextrue.width height:_inputTextrue.height mipmapped:NO];
+    MTLTextureDescriptor *pTexDescp = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm width:_inputTextrue.width height:_inputTextrue.height mipmapped:NO];
     
     _outputTextrue = [_imgfilterDevice newTextureWithDescriptor:pTexDescp];
     if (!_outputTextrue)

@@ -33,7 +33,7 @@
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = 1;
     [vc addTarget:filter];
-    //[filter addTarget:filter1];
+
     [filter addTarget:imageView];
 
 }

@@ -414,9 +414,16 @@ static const simd::float4 imageVertices[] = {
     {
         // Get a render encoder
         id <MTLRenderCommandEncoder>  renderEncoder = [sharedRenderCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-        [self renderWithEncoder:renderEncoder];
-        // Present and commit the command buffer
-        [sharedRenderCommandBuffer presentDrawable:self.currentDrawable];
+        if([self renderWithEncoder:renderEncoder])
+        {
+            // Present and commit the command buffer
+            [sharedRenderCommandBuffer presentDrawable:self.currentDrawable];
+        }
+        else
+        {
+            [renderEncoder endEncoding];
+            return;
+        }
     }
     
     //Dispatch the command buffer
@@ -438,8 +445,12 @@ static const simd::float4 imageVertices[] = {
     
 }
 
--(void)renderWithEncoder:(id <MTLRenderCommandEncoder>) rEncoder
+-(BOOL)renderWithEncoder:(id <MTLRenderCommandEncoder>) rEncoder
 {
+    if (!inputTextureForDisplay)
+    {
+        return NO;
+    }
     // Encode into a renderer
     [rEncoder pushDebugGroup:@"encodequad"];
     [rEncoder setFrontFacingWinding:MTLWindingCounterClockwise];
@@ -456,7 +467,7 @@ static const simd::float4 imageVertices[] = {
     
     [rEncoder endEncoding];
     [rEncoder popDebugGroup];
-    
+    return YES;
 }
 - (NSInteger)nextAvailableTextureIndex;
 {

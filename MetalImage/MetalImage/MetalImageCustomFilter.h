@@ -5,6 +5,7 @@
 //  Created by xuqing on 8/7/2016.
 //  Copyright © 2016 xuqing. All rights reserved.
 //
+///////////////////You can rewrite it by yourself with all several pass or compute kernel here //////////////
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 #import "MetalImageCustomView.h"

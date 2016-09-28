@@ -11,7 +11,7 @@
 @implementation MetalImageGammaFilter
 {
     id <MTLBuffer>              _gammaBuffer;
-    CGFloat                     gamma;
+    
 }
 
 
@@ -31,23 +31,29 @@
         return nil;
     }
     
-    gamma               = 1.0;
+
     if (!self.filterDevice )
     {
         return nil;
+        
     }
-    _gammaBuffer  = [self.filterDevice newBufferWithBytes:&gamma length:sizeof(CGFloat) options:MTLResourceOptionCPUCacheModeDefault];
+    _gammaBuffer  = [self.filterDevice newBufferWithLength:1024 options:0];
+    _gammaBuffer.label = [NSString stringWithFormat:@"ConstUniformBuffer"];
+    float* gammaPtr = (float*)[_gammaBuffer contents];
+    *gammaPtr = 2.0;
+    
     return self;
 }
 
--(void)setGamma:(CGFloat)val;
+-(void)slideGamma:(CGFloat)val
 {
-    gamma               = val;
+   
     if (!self.filterDevice)
     {
         return ;
     }
-    _gammaBuffer  = [self.filterDevice newBufferWithBytes:&gamma length:sizeof(CGFloat) options:MTLResourceOptionCPUCacheModeDefault];
+    float* gammaPtr = (float*)[_gammaBuffer contents];
+    *gammaPtr = val;
 }
 
 
@@ -63,12 +69,12 @@
             id <MTLRenderCommandEncoder>  renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];//should keep renderPassDescp is ture...
 
             [renderEncoder pushDebugGroup:@"gamma_filter_render_encoder"];
-            //[renderEncoder setDepthStencilState:_depthStencilState];
-            [renderEncoder setFragmentTexture:firstInputTexture.texture atIndex:0];//first render pass for next pass using...
-            //[renderEncoder setFragmentBuffer:_gammaBuffer offset:0 atIndex:0];
             [renderEncoder setVertexBuffer:self.verticsBuffer  offset:0  atIndex: 0 ];
             [renderEncoder setVertexBuffer:self.coordBuffer offset:0  atIndex: 1];
             
+            [renderEncoder setFragmentTexture:firstInputTexture.texture atIndex:0];
+            [renderEncoder setFragmentBuffer:_gammaBuffer offset:0 atIndex:0];
+            [renderEncoder setFragmentTexture:outputTexture.texture atIndex:1];
             [renderEncoder setRenderPipelineState:_renderpipelineState];
             
             // tell the render context we want to draw our primitives
@@ -87,16 +93,11 @@
     {
         return;
     }
-//    //calculate compute kenel's width and height
-//    _threadGroupSize = MTLSizeMake(16, 16, 1);
-//    NSUInteger nthreadWidthSteps  = (firstInputTexture.width + _threadGroupSize.width - 1) / _threadGroupSize.width;
-//    NSUInteger nthreadHeightSteps = (firstInputTexture.height+ _threadGroupSize.height - 1)/ _threadGroupSize.height;
-//    _threadGroupCount             = MTLSizeMake(nthreadWidthSteps, nthreadHeightSteps, 1);
-//    
-//    //new output texture for next filter
-//    outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
-//    [outputTexture loadTextureIntoDevice:self.filterDevice];
-    if (![self initRenderPassDescriptorFromTexture:firstInputTexture.texture])
+    //new output texture for next filter
+    outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
+    [outputTexture loadTextureIntoDevice:self.filterDevice];
+    
+    if (![self initRenderPassDescriptorFromTexture:outputTexture.texture])
     {
         _renderpipelineState = nil;//cant render sth on ouputTexture...
     }

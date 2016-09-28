@@ -44,13 +44,15 @@ vertex VertexInOut gammaVertex(constant float4         *pPosition[[ buffer(0) ]]
     
     return outVertices;
 }
-//, device const float *gamma [[buffer(0)]]
-fragment half4 gammaFragment(VertexInOut inFrag[[ stage_in ]], texture2d<half> tex2D[[ texture(0) ]])
+
+fragment half4 gammaFragment(VertexInOut inFrag[[ stage_in ]], texture2d<half> texGamma[[ texture(0) ]], texture2d<half> outTex[[texture(1)]], constant float* unfm_gamma[[buffer(0)]])
 {
     constexpr sampler qsampler;
-    half4 color = tex2D.sample(qsampler, inFrag.m_TexCoord);//half4(r, 0.0, 0.0, 1.0);
+    half4 srcColor    = texGamma.sample(qsampler, inFrag.m_TexCoord);
     
-    return pow(color,2.0);
+    half4 outColor = outTex.sample(qsampler, inFrag.m_TexCoord);
+    outColor = pow(srcColor,*unfm_gamma);
+    return outColor;
 }
 
 

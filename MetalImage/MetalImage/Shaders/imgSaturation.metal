@@ -9,7 +9,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void Saturation(
+kernel void imgSaturation(
                        texture2d<float, access::read> inTexture [[texture(0)]],
                        texture2d<float, access::write> outTexture [[texture(1)]],
                        device float *saturation [[buffer(0)]],
@@ -20,7 +20,8 @@ kernel void Saturation(
     const float4 inColor = inTexture.read(gid);
     const float luminance = dot(inColor.rgb, W);
     const float3 greyScaleColor = float3(luminance);
-    const float4 outColor = float4(mix(greyScaleColor,inColor.rgb, *saturation),inColor.a);
+    float3 alpha  = float3(*saturation, *(saturation+1), *(saturation+2));
+    const float4 outColor = float4(mix(greyScaleColor,inColor.rgb, alpha),inColor.a);
     outTexture.write(outColor, gid);
 }
 

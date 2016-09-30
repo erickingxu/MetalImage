@@ -12,7 +12,7 @@
 @implementation MetalImageLuminanceFilter
 {
     id <MTLBuffer>              _LumfactorBuffer;
-    simd::float3                lumfactorArr;
+    float                lumfactor;
 }
 
 -(id)init
@@ -28,23 +28,23 @@
     {
         return nil;
     }
-    lumfactorArr      = {1.0, 0.1, 0.0};
+    lumfactor      = 0.5;
     
-    _LumfactorBuffer  = [self.filterDevice newBufferWithBytes:&lumfactorArr length:sizeof(simd::float3) options:MTLResourceOptionCPUCacheModeDefault];
+    _LumfactorBuffer  = [self.filterDevice newBufferWithBytes:&lumfactor length:sizeof(float) options:MTLResourceOptionCPUCacheModeDefault];
 
     return self;
 }
 
 
--(void)setLuminanceBuffer:(float*)lumArr;
+-(void)setLuminanceBuffer:(float)lum;
 {
-    lumfactorArr      = {lumArr[0], lumArr[1], lumArr[2]};
+    lumfactor      = lum;
     if (!self.filterDevice)
     {
         return ;
     }
     
-    _LumfactorBuffer  = [self.filterDevice newBufferWithBytes:&lumfactorArr length:sizeof(simd::float3) options:MTLResourceOptionCPUCacheModeDefault];
+    _LumfactorBuffer  = [self.filterDevice newBufferWithBytes:&lumfactor length:sizeof(float) options:MTLResourceOptionCPUCacheModeDefault];
 
 }
 

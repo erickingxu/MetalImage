@@ -10,5 +10,5 @@
 
 @interface MetalImageContrastFilter : MetalImageFilter
 
--(void)setContrastFactor:(CGFloat)contrst;
+-(void)setContrastFactor:(float)contrst;
 @end

@@ -12,7 +12,7 @@
 
 {
     id <MTLBuffer>              _contrastBuffer;
-    CGFloat                     contrastfactor;
+    float                     contrastfactor;
 }
 
 
@@ -24,30 +24,30 @@
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
-    peline.computeFuncNameStr =  @"contrast";
+    peline.computeFuncNameStr =  @"imgContrast";
     if (!(self = [super initWithMetalPipeline:&peline]))
     {
         return nil;
     }
     
-    contrastfactor               = 0.0;
+    contrastfactor               = 1.0;
     if (!self.filterDevice )
     {
         return nil;
     }
-    _contrastBuffer  = [self.filterDevice newBufferWithBytes:&contrastfactor length:sizeof(CGFloat) options:MTLResourceOptionCPUCacheModeDefault];
+    _contrastBuffer  = [self.filterDevice newBufferWithBytes:&contrastfactor length:sizeof(float) options:MTLResourceOptionCPUCacheModeDefault];
 
     return self;
 }
 
--(void)setContrastFactor:(CGFloat)contrst
+-(void)setContrastFactor:(float)contrst
 {
     contrastfactor               = contrst;
     if (!self.filterDevice )
     {
         return ;
     }
-    _contrastBuffer  = [self.filterDevice newBufferWithBytes:&contrastfactor length:sizeof(CGFloat) options:MTLResourceOptionCPUCacheModeDefault];
+    _contrastBuffer  = [self.filterDevice newBufferWithBytes:&contrastfactor length:sizeof(float) options:MTLResourceOptionCPUCacheModeDefault];
 }
 
 

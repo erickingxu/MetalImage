@@ -23,14 +23,14 @@
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
-    peline.computeFuncNameStr =  @"contrast";
+    peline.computeFuncNameStr =  @"imgSaturation";
     if (!(self = [super initWithMetalPipeline:&peline]))
     {
         return nil;
     }
     
     
-    rgbSaturation  = {0.2, 0.0, 0.0};
+    rgbSaturation  = {1.0, 0.1, 0.1};
     if (!self.filterDevice )
     {
         return nil;

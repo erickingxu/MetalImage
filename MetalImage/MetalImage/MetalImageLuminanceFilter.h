@@ -11,5 +11,5 @@
 @interface MetalImageLuminanceFilter : MetalImageFilter
 
 
--(void)setLuminanceBuffer:(float*)lumArr;
+-(void)setLuminanceBuffer:(float)lum;
 @end

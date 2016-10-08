@@ -215,22 +215,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../MetalImage/MetalImage/MetalImageOutput.mm"
-            timestampString = "492489577.720405"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "-setInputTextureForTarget:atIndex:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../../MetalImage/MetalImage/MetalImageBaseView.mm"
             timestampString = "492491888.982886"
             startingColumnNumber = "9223372036854775807"
@@ -338,16 +322,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MetalImageFilter/ViewController.m"
-            timestampString = "492517402.856667"
+            filePath = "../../MetalImage/MetalImage/MetalImageView.mm"
+            timestampString = "497506051.396847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "-setupFilterImageDisplay"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "-prepareRenderPipeline"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../MetalImage/MetalImage/MetalImageView.mm"
+            timestampString = "497505902.316839"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "-prepareRenderPipeline"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

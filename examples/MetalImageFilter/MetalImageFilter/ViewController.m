@@ -38,7 +38,7 @@
     {
         NSLog(@"Can not make filter fire on!");
     }
-    filter     = [[MetalImageGaussianFilter alloc] init];
+    filter     = [[MetalImageGrayFilter alloc] init];
     //filter1    = [[MetalImageBrightnessFilter alloc] init];
     
     MetalImageView*  imageView = (MetalImageView*)self.view;

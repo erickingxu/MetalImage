@@ -240,7 +240,10 @@ static const simd::float4 imageVertices[] = {
     id <MTLFunction> vertexProgram   = [renderLibrary newFunctionWithName:@"imageQuadVertex"];
     // get the fragment function from the library
     id <MTLFunction> fragmentProgram = [renderLibrary newFunctionWithName:@"imageQuadFragment"];
-    
+    if (!vertexProgram || !fragmentProgram)
+    {
+        return NO;
+    }
     //  create a pipeline state for the quad
     MTLRenderPipelineDescriptor *pQuadPipelineStateDescriptor = [MTLRenderPipelineDescriptor new];
     pQuadPipelineStateDescriptor.depthAttachmentPixelFormat      = MTLPixelFormatDepth32Float;

@@ -126,17 +126,17 @@
 		0D3195EE1D5B2F5300451566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0D0059AE1D993E8400AD41F4 /* imgGamma.metal */,
-				0D8A9D971D6D9E83000FFC11 /* imgBeauty.metal */,
 				0D3195EF1D5B2F7E00451566 /* baseFilter.metal */,
 				0D3195F01D5B2F7E00451566 /* imageQuad.metal */,
-				0D3195F11D5B2F7E00451566 /* imgBrightness.metal */,
-				0D3195F21D5B2F7E00451566 /* imgContrast.metal */,
-				0D3195F31D5B2F7E00451566 /* imgExposure.metal */,
-				0D3195F41D5B2F7E00451566 /* imgGaussian.metal */,
+				0D0059AE1D993E8400AD41F4 /* imgGamma.metal */,
+				0D8A9D971D6D9E83000FFC11 /* imgBeauty.metal */,
 				0D3195F51D5B2F7E00451566 /* imgGray.metal */,
-				0D3195F61D5B2F7E00451566 /* imgLuminance.metal */,
 				0D3195F71D5B2F7E00451566 /* imgSaturation.metal */,
+				0D3195F31D5B2F7E00451566 /* imgExposure.metal */,
+				0D3195F11D5B2F7E00451566 /* imgBrightness.metal */,
+				0D3195F61D5B2F7E00451566 /* imgLuminance.metal */,
+				0D3195F21D5B2F7E00451566 /* imgContrast.metal */,
+				0D3195F41D5B2F7E00451566 /* imgGaussian.metal */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

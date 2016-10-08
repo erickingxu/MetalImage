@@ -7,13 +7,22 @@
 //
 
 #import "MetalImageFilter.h"
+static const simd::float4 imageVertices[] = {
+    { -1.0f,  -1.0f, 0.0f, 1.0f },
+    {  1.0f,  -1.0f, 0.0f, 1.0f },
+    { -1.0f,   1.0f, 0.0f, 1.0f },
+    
+    {  1.0f,  -1.0f, 0.0f, 1.0f },
+    { -1.0f,   1.0f, 0.0f, 1.0f },
+    {  1.0f,   1.0f, 0.0f, 1.0f },
+};
 
 
 #define kCntQuadTexCoords   6
 
 @implementation MetalImageFilter
 
-@synthesize filterDevice     = _filterDevice;
+@synthesize filterDevice        = _filterDevice;
 @synthesize verticsBuffer       = _verticsBuffer;
 @synthesize coordBuffer         = _coordBuffer;
 @synthesize filterLibrary       = _filterLibrary;
@@ -31,6 +40,7 @@
     peline.computeFuncNameStr = @""; //"basePass";
     peline.vertexFuncNameStr  = @"imageQuadVertex";
     peline.fragmentFuncNameStr= @"imageQuadFragment";
+    
     if ( !(self = [self initWithMetalPipeline: &peline]) || !_filterDevice)
     {
         return nil;
@@ -55,14 +65,50 @@
     {
         return nil;
     }
-    _depthPixelFormat   = pline->depthPixelFormat;
-    _stencilPixelFormat = pline->stencilPixelFormat;
+    _threadGroupSize = MTLSizeMake(16, 16, 1);
+    _depthPixelFormat           = pline->depthPixelFormat;
+    _stencilPixelFormat         = pline->stencilPixelFormat;
     //_bFBOOnly           = NO;
-    firstInputTexture   = nil;
-    outputTexture       = nil;
-    inputRotation       = pline->orient;
-    renderplineStateDescriptor = [MTLRenderPipelineDescriptor new];
-    renderDepthStateDesc = [MTLDepthStencilDescriptor new];
+    firstInputTexture           = nil;
+    outputTexture               = nil;
+    inputRotation               = pline->orient;
+    renderplineStateDescriptor  = [MTLRenderPipelineDescriptor new];
+    renderDepthStateDesc        = [MTLDepthStencilDescriptor new];
+    if(!renderDepthStateDesc)
+    {
+        NSLog(@">> ERROR: Failed creating a depth stencil descriptor!");
+        
+        return nil;
+    } // if
+    
+    renderDepthStateDesc.depthCompareFunction = MTLCompareFunctionAlways;
+    renderDepthStateDesc.depthWriteEnabled    = YES;
+    
+    _depthStencilState = [_filterDevice newDepthStencilStateWithDescriptor:renderDepthStateDesc];
+    
+    if(!_depthStencilState)
+    {
+        return nil;
+    } // if
+    
+    //set output texture and draw reslut to it with vertex buffer which could be reused
+    const simd::float2 *CoordBytes = [[self class] textureCoordinatesForRotation:inputRotation];
+    
+    _verticsBuffer = [_filterDevice newBufferWithBytes:imageVertices length:kCntQuadTexCoords*sizeof(simd::float4) options:MTLResourceOptionCPUCacheModeDefault];
+    
+    if(!_verticsBuffer)
+    {
+        NSLog(@">> ERROR: Failed creating a vertex buffer for a quad!");
+        return nil;
+    }
+    _verticsBuffer.label = @"quad vertices";
+    _coordBuffer = [_filterDevice newBufferWithBytes:CoordBytes length:kCntQuadTexCoords*sizeof(simd::float2) options:MTLResourceOptionCPUCacheModeDefault];
+    if(!_coordBuffer)
+    {
+        NSLog(@">> ERROR: Failed creating a 2d texture coordinate buffer!");
+        return nil;
+    }
+    _coordBuffer.label = @"quad texcoords";
     
     if (![self preparePipelineState:pline] )
     {
@@ -110,7 +156,10 @@
     else
     {
         id <MTLFunction> caculateFunc   = [_filterLibrary newFunctionWithName:filterPipelineState->computeFuncNameStr];
-        
+        if (!caculateFunc)
+        {
+            return NO;
+        }
         _caclpipelineState   = [_filterDevice newComputePipelineStateWithFunction:caculateFunc error:&pError];
         
         if(!_caclpipelineState)
@@ -120,6 +169,8 @@
             return NO;
         }
     }
+    
+    
     return YES;
 }
 
@@ -229,16 +280,6 @@
 
 - (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
 {
-    static const simd::float4 imageVertices[] = {
-        { -1.0f,  -1.0f, 0.0f, 1.0f },
-        {  1.0f,  -1.0f, 0.0f, 1.0f },
-        { -1.0f,   1.0f, 0.0f, 1.0f },
-        
-        {  1.0f,  -1.0f, 0.0f, 1.0f },
-        { -1.0f,   1.0f, 0.0f, 1.0f },
-        {  1.0f,   1.0f, 0.0f, 1.0f },
-    };
-    
     [self renderToTextureWithVertices:imageVertices textureCoordinates:[[self class] textureCoordinatesForRotation:inputRotation]];
     
     [self informTargetsAboutNewFrameAtTime:frameTime];
@@ -258,22 +299,6 @@
     colorAttachment.storeAction     = MTLStoreActionStore;
     //using default depth and stencil dscrptor...
     
-    if(!renderDepthStateDesc)
-    {
-        NSLog(@">> ERROR: Failed creating a depth stencil descriptor!");
-        
-        return NO;
-    } // if
-    
-    renderDepthStateDesc.depthCompareFunction = MTLCompareFunctionAlways;
-    renderDepthStateDesc.depthWriteEnabled    = YES;
-    
-    _depthStencilState = [_filterDevice newDepthStencilStateWithDescriptor:renderDepthStateDesc];
-    
-    if(!_depthStencilState)
-    {
-        return NO;
-    } // if
     
     return YES;
 }
@@ -324,39 +349,26 @@
     {
         return;
     }
-    //calculate compute kenel's width and height
-    _threadGroupSize = MTLSizeMake(16, 16, 1);
-    NSUInteger nthreadWidthSteps  = (firstInputTexture.width + _threadGroupSize.width - 1) / _threadGroupSize.width;
-    NSUInteger nthreadHeightSteps = (firstInputTexture.height+ _threadGroupSize.height - 1)/ _threadGroupSize.height;
-    _threadGroupCount             = MTLSizeMake(nthreadWidthSteps, nthreadHeightSteps, 1);
     
     //new output texture for next filter
-    outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
-    [outputTexture loadTextureIntoDevice:_filterDevice];
-    if (![self initRenderPassDescriptorFromTexture:outputTexture.texture])
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        _threadGroupSize = MTLSizeMake(16, 16, 1);
+        //calculate compute kenel's width and height
+        NSUInteger nthreadWidthSteps  = (firstInputTexture.width + _threadGroupSize.width - 1) / _threadGroupSize.width;
+        NSUInteger nthreadHeightSteps = (firstInputTexture.height+ _threadGroupSize.height - 1)/ _threadGroupSize.height;
+        _threadGroupCount             = MTLSizeMake(nthreadWidthSteps, nthreadHeightSteps, 1);
+        outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
+        [outputTexture loadTextureIntoDevice:_filterDevice];
+        
+    });
+    
+    if (outputTexture && ![self initRenderPassDescriptorFromTexture:outputTexture.texture])
     {
         _renderpipelineState = nil;//cant render sth on ouputTexture...
     }
  
-    //set output texture and draw reslut to it
-    _verticsBuffer = [_filterDevice newBufferWithBytes:vertices length:kCntQuadTexCoords*sizeof(simd::float4) options:MTLResourceOptionCPUCacheModeDefault];
-    
-    if(!_verticsBuffer)
-    {
-        NSLog(@">> ERROR: Failed creating a vertex buffer for a quad!");
-        return ;
-    }
-    _verticsBuffer.label = @"quad vertices";
-    _coordBuffer = [_filterDevice newBufferWithBytes:textureCoordinates length:kCntQuadTexCoords*sizeof(simd::float2) options:MTLResourceOptionCPUCacheModeDefault];
-    if(!_coordBuffer)
-    {
-        NSLog(@">> ERROR: Failed creating a 2d texture coordinate buffer!");
-        return;
-    }
-    _coordBuffer.label = @"quad texcoords";
-    
     //load encoder for compute input texture
-  
     if (sharedcommandBuffer)
     {
         [self caculateWithCommandBuffer:sharedcommandBuffer];

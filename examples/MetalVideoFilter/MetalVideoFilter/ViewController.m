@@ -28,7 +28,7 @@
 -(void)startupVideo
 {
     vc     = [[MetalImageVideoCamera alloc] init];
-    filter    = [[MetalImageGrayFilter alloc] init];
+    filter    = [[MetalImageSaturationFilter alloc] init];
     
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = kMetalImageRotateLeft;

@@ -114,6 +114,10 @@
 		0DD9C4CB1D2F80CD00421104 /* MetalImageCustomFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0DD9C4C91D2F80CD00421104 /* MetalImageCustomFilter.mm */; };
 		0DD9C4D31D2F923B00421104 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD9C4D21D2F923B00421104 /* QuartzCore.framework */; };
 		0DD9C4D81D2F959400421104 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD9C4D71D2F959400421104 /* Metal.framework */; };
+		0DDF68E11E27573F00C050A6 /* MetalImageTransforms.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0DDF68E01E27573F00C050A6 /* MetalImageTransforms.mm */; };
+		0DDF68E21E27573F00C050A6 /* MetalImageTransforms.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0DDF68E01E27573F00C050A6 /* MetalImageTransforms.mm */; };
+		0DDF68E41E2758C100C050A6 /* MetalImageTransforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DDF68E31E2758C100C050A6 /* MetalImageTransforms.h */; };
+		0DDF68E51E2758C100C050A6 /* MetalImageTransforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DDF68E31E2758C100C050A6 /* MetalImageTransforms.h */; };
 		0DE62F701D4AF8BC00BBDD98 /* MetalImageOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DE62F6E1D4AF8BC00BBDD98 /* MetalImageOutput.h */; };
 		0DE62F711D4AF8BC00BBDD98 /* MetalImageOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DE62F6E1D4AF8BC00BBDD98 /* MetalImageOutput.h */; };
 		0DE62F721D4AF8BC00BBDD98 /* MetalImageOutput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0DE62F6F1D4AF8BC00BBDD98 /* MetalImageOutput.mm */; };
@@ -201,6 +205,8 @@
 		0DD9C4C91D2F80CD00421104 /* MetalImageCustomFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalImageCustomFilter.mm; sourceTree = "<group>"; };
 		0DD9C4D21D2F923B00421104 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0DD9C4D71D2F959400421104 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		0DDF68E01E27573F00C050A6 /* MetalImageTransforms.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalImageTransforms.mm; sourceTree = "<group>"; };
+		0DDF68E31E2758C100C050A6 /* MetalImageTransforms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalImageTransforms.h; sourceTree = "<group>"; };
 		0DE62F6E1D4AF8BC00BBDD98 /* MetalImageOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalImageOutput.h; sourceTree = "<group>"; };
 		0DE62F6F1D4AF8BC00BBDD98 /* MetalImageOutput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalImageOutput.mm; sourceTree = "<group>"; };
 		0DE653581D4EE4AB002A810B /* MetalImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalImageFilter.h; sourceTree = "<group>"; };
@@ -238,15 +244,12 @@
 		0D4C7F4E1D3DC2A4007ABDC0 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				0DDF68DF1E2756EC00C050A6 /* Custom */,
 				0D8A9DAA1D6ED5C2000FFC11 /* 3D */,
 				0D8A9DA91D6ED3F5000FFC11 /* Outputs */,
 				0D8A9DA81D6ED3D3000FFC11 /* Inputs */,
 				0D8A9DA71D6ED37A000FFC11 /* Effects */,
 				0D8A9DA61D6ED354000FFC11 /* Color */,
-				0DD9C4C81D2F80CD00421104 /* MetalImageCustomFilter.h */,
-				0DD9C4C91D2F80CD00421104 /* MetalImageCustomFilter.mm */,
-				0DC9B33B1D4739BD00FEA3ED /* MetalImageVideo.h */,
-				0DC9B33C1D4739BD00FEA3ED /* MetalImageVideo.mm */,
 			);
 			name = Filters;
 			sourceTree = "<group>";
@@ -308,6 +311,8 @@
 		0D8A9DAA1D6ED5C2000FFC11 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				0DDF68E01E27573F00C050A6 /* MetalImageTransforms.mm */,
+				0DDF68E31E2758C100C050A6 /* MetalImageTransforms.h */,
 			);
 			name = 3D;
 			sourceTree = "<group>";
@@ -340,8 +345,6 @@
 				0D924FA31D2E9BBC00D099E6 /* Info.plist */,
 				0D380B231D33761A00AF24EE /* MetalImageCmdQueue.h */,
 				0D380B241D33761A00AF24EE /* MetalImageCmdQueue.m */,
-				0D380B2C1D34E72300AF24EE /* MetalImageCustomView.h */,
-				0D380B2D1D34E72300AF24EE /* MetalImageCustomView.m */,
 				0DE653581D4EE4AB002A810B /* MetalImageFilter.h */,
 				0DE653591D4EE4AB002A810B /* MetalImageFilter.mm */,
 			);
@@ -395,6 +398,19 @@
 			path = MetalImage/AssertLoader;
 			sourceTree = "<group>";
 		};
+		0DDF68DF1E2756EC00C050A6 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				0DD9C4C81D2F80CD00421104 /* MetalImageCustomFilter.h */,
+				0DD9C4C91D2F80CD00421104 /* MetalImageCustomFilter.mm */,
+				0D380B2C1D34E72300AF24EE /* MetalImageCustomView.h */,
+				0D380B2D1D34E72300AF24EE /* MetalImageCustomView.m */,
+				0DC9B33B1D4739BD00FEA3ED /* MetalImageVideo.h */,
+				0DC9B33C1D4739BD00FEA3ED /* MetalImageVideo.mm */,
+			);
+			name = Custom;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -423,6 +439,7 @@
 				0D380B711D3744E900AF24EE /* MetalImageCustomView.h in Headers */,
 				0DB49F921D46586C00F2DF73 /* MetalImageBrightnessFilter.h in Headers */,
 				0D3195C41D5ADD1E00451566 /* MetalImageVideoCamera.h in Headers */,
+				0DDF68E51E2758C100C050A6 /* MetalImageTransforms.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +468,7 @@
 				0D380B2E1D34E72300AF24EE /* MetalImageCustomView.h in Headers */,
 				0DB49F911D46586C00F2DF73 /* MetalImageBrightnessFilter.h in Headers */,
 				0D3195C31D5ADD1E00451566 /* MetalImageVideoCamera.h in Headers */,
+				0DDF68E41E2758C100C050A6 /* MetalImageTransforms.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +518,7 @@
 		0D924F951D2E9BBC00D099E6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = xuqing;
 				TargetAttributes = {
 					0D380B591D37434100AF24EE = {
@@ -579,6 +597,7 @@
 				0D3FAAA41D46216D008721F6 /* imgExposure.metal in Sources */,
 				0DBE5DF81D64A84D0030E81D /* imgGamma.metal in Sources */,
 				0D4B94191D3F797200757C18 /* imgGray.metal in Sources */,
+				0DDF68E21E27573F00C050A6 /* MetalImageTransforms.mm in Sources */,
 				0D3FAAA71D4621E7008721F6 /* imgContrast.metal in Sources */,
 				0D3FAAA11D462100008721F6 /* imgLuminance.metal in Sources */,
 				0D4B941C1D3F7ACF00757C18 /* imageQuad.metal in Sources */,
@@ -620,6 +639,7 @@
 				0D49FA8C1D92679500231E70 /* MetalImageGammaFilter.mm in Sources */,
 				0D3195C51D5ADD1E00451566 /* MetalImageVideoCamera.m in Sources */,
 				0DD2FABF1D6C263C00813A30 /* MetalImageBeautyFilter.m in Sources */,
+				0DDF68E11E27573F00C050A6 /* MetalImageTransforms.mm in Sources */,
 				0D4B941B1D3F7ACF00757C18 /* imageQuad.metal in Sources */,
 				0DBE5E001D64A9730030E81D /* imgHue.metal in Sources */,
 				0D6761AD1D5195F300B0633C /* MetalImagePicture.mm in Sources */,
@@ -678,8 +698,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -726,8 +748,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -757,6 +781,7 @@
 		0D924FA71D2E9BBC00D099E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -776,6 +801,7 @@
 		0D924FA81D2E9BBC00D099E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

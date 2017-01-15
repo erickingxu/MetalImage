@@ -1,0 +1,49 @@
+//
+//  MetalImageTransforms.h
+//  MetalImage
+//
+//  Created by xuqing on 12/1/2017.
+//  Copyright © 2017 xuqing. All rights reserved.
+//
+
+#ifndef MetalImageTransforms_h
+#define MetalImageTransforms_h
+
+//  Utilities matrix for project, geometry coordinates
+#import <simd/simd.h>
+#ifdef __cplusplus
+
+namespace  MetalImage
+{
+    float radius(const float& degrees);
+    
+    simd::float4x4 scale(const float& x,const float& y,const float& z );
+    simd::float4x4 scale(const simd::float3& s);
+    
+    simd::float4x4 translate(const float& x,const float& y,const float& z);
+    simd::float4x4 translate(const simd::float3& t);
+    
+    simd::float4x4 rotate(const float& angle,const float& x,const float& y,const float& z);
+    simd::float4x4 rotate(const float& angle,const simd::float3& u);
+    
+    simd::float4x4 frustum(const float& fovH,const float& fovV,const float& near,const float& far);
+    simd::float4x4 frustum(const float& left,const float& right,const float& bottom,const float& top,const float& near,const float& far);
+    simd::float4x4 frustum_oc(const float& left,const float& right,const float& bottom,const float& top,const float& near,const float& far);
+    
+    simd::float4x4 lookAt(const float * const pEye,const float * const pCenter,const float * const pUp);
+    simd::float4x4 lookAt(const simd::float3& eye,const simd::float3& center,const simd::float3& up);
+    
+    simd::float4x4 perspective(const float& width,const float& height,const float& near,const float& far);
+    simd::float4x4 perspective_fov(const float& fovy,const float& aspect,const float& near,const float& far);
+    simd::float4x4 perspective_fov(const float& fovy,const float& width,const float& height,const float& near,const float& far);
+    
+    simd::float4x4 ortho2d_oc(const float& left,const float& right,const float& bottom,const float& top,const float& near,const float& far);
+    simd::float4x4 ortho2d_oc(const simd::float3& origin,const simd::float3& size);
+    simd::float4x4 ortho2d(const float& left,  const float& right,const float& bottom,const float& top,const float& near,const float& far);
+    simd::float4x4 ortho2d(const simd::float3& origin,const simd::float3& size);
+}
+
+
+#endif
+#endif
+/* MetalImageTransforms_h */

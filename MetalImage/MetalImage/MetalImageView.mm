@@ -409,7 +409,7 @@ static const simd::float4 imageVertices[] = {
         }
         
     
-//    dispatch_semaphore_wait([MetalImageCmdQueue getSemaphore], DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait([MetalImageCmdQueue getSemaphore], DISPATCH_TIME_FOREVER);
    
     // create a render command encoder so we can render into something
     MTLRenderPassDescriptor *renderPassDescriptor = [self getRenderPassDescriptor];
@@ -429,18 +429,17 @@ static const simd::float4 imageVertices[] = {
         }
     }
     
-    //Dispatch the command buffer
-//    __block dispatch_semaphore_t dispatchSemaphore = [MetalImageCmdQueue getSemaphore];
-//    
-//    [cmdBuffer addCompletedHandler:^(id <MTLCommandBuffer> cmdb){
-//        NSLog(@"****************Wooo, li ge fuck world!!!********************");
-//        dispatch_semaphore_signal(dispatchSemaphore);
-//    }];
+//    Dispatch the command buffer
+
+    __block dispatch_semaphore_t dispatchSemaphore = [MetalImageCmdQueue getSemaphore];
+    
+    [sharedRenderCommandBuffer addCompletedHandler:^(id <MTLCommandBuffer> cmdb){
+        NSLog(@"****************fresh another commderbuffer for display!!!********************");
+        dispatch_semaphore_signal(dispatchSemaphore);
+    }];
+    
     
     [sharedRenderCommandBuffer commit];
-    [sharedRenderCommandBuffer waitUntilCompleted];
-    //        [inputFramebufferForDisplay unlock];
-    //        inputFramebufferForDisplay = nil;
     // do not retain current drawable beyond the frame.
     // There should be no strong references to this object outside of this view class
     _currentDrawable    = nil;

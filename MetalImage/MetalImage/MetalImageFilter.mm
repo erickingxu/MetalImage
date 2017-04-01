@@ -350,17 +350,18 @@ static const simd::float4 imageVertices[] = {
     }
     
     //new output texture for next filter
-   
+    if (_threadGroupSize.width == 0 || _threadGroupSize.height == 0 || _threadGroupSize.depth == 0 )
+    {
+        _threadGroupSize = MTLSizeMake(16, 16, 1);
+    }
+    //calculate compute kenel's width and height
+    
+    NSUInteger nthreadWidthSteps  = (firstInputTexture.width + _threadGroupSize.width - 1) / _threadGroupSize.width;
+    NSUInteger nthreadHeightSteps = (firstInputTexture.height+ _threadGroupSize.height - 1)/ _threadGroupSize.height;
+    _threadGroupCount             = MTLSizeMake(nthreadWidthSteps, nthreadHeightSteps, 1);
+    
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        if (_threadGroupSize.width == 0 || _threadGroupSize.height == 0 || _threadGroupSize.depth == 0 )
-        {
-            _threadGroupSize = MTLSizeMake(16, 16, 1);
-        }
-        //calculate compute kenel's width and height
-        NSUInteger nthreadWidthSteps  = (firstInputTexture.width + _threadGroupSize.width - 1) / _threadGroupSize.width;
-        NSUInteger nthreadHeightSteps = (firstInputTexture.height+ _threadGroupSize.height - 1)/ _threadGroupSize.height;
-        _threadGroupCount             = MTLSizeMake(nthreadWidthSteps, nthreadHeightSteps, 1);
         
         if (outputTexture ==  nil)
         {

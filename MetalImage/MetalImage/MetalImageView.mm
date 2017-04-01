@@ -403,7 +403,10 @@ static const simd::float4 imageVertices[] = {
             CGSize drawableSize = self.bounds.size;
             drawableSize.width  *= self.contentScaleFactor;
             drawableSize.height *= self.contentScaleFactor;
-            
+            if (drawableSize.width == 0 || drawableSize.height == 0) {
+                drawableSize.width = 1;
+                drawableSize.height = 1;
+            }
             _metalLayer.drawableSize = drawableSize;
             _layerSizeDidUpdate = NO;
         }

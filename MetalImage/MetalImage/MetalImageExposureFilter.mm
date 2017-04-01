@@ -49,8 +49,6 @@
 }
 
 
-
-
 -(void)caculateWithCommandBuffer:(id <MTLCommandBuffer>)commandBuffer
 {
     

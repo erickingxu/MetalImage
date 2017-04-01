@@ -7,7 +7,7 @@
 //
 
 #import "MetalImageCustomFilter.h"
-#import "AssertLoader/MetalImageTexture.h"
+#import "MetalImageTexture.h"
 #import <simd/simd.h>
 #import "MetalImageCmdQueue.h"
 ///////////////////////////////////////////////////////////////////////////////////

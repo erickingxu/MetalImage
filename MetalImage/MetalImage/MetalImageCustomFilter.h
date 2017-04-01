@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 #import "MetalImageCustomView.h"
-#import "AssertLoader/MetalImageTexture.h"
+#import "MetalImageTexture.h"
 
 typedef enum MetalOrientation
 {

@@ -412,11 +412,11 @@ static const simd::float4 imageVertices[] = {
     dispatch_semaphore_wait([MetalImageCmdQueue getSemaphore], DISPATCH_TIME_FOREVER);
    
     // create a render command encoder so we can render into something
-    MTLRenderPassDescriptor *renderPassDescriptor = [self getRenderPassDescriptor];
-    if (renderPassDescriptor && sharedRenderCommandBuffer)
+    MTLRenderPassDescriptor *renderPassDescriptor1 = [self getRenderPassDescriptor];
+    if (renderPassDescriptor1 && sharedRenderCommandBuffer)
     {
         // Get a render encoder
-        id <MTLRenderCommandEncoder>  renderEncoder = [sharedRenderCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        id <MTLRenderCommandEncoder>  renderEncoder = [sharedRenderCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor1];
         if([self renderWithEncoder:renderEncoder])
         {
             // Present and commit the command buffer

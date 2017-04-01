@@ -5,14 +5,10 @@
 //  Created by xuqing on 8/7/2016.
 //  Copyright © 2016 xuqing. All rights reserved.
 //
-
-#include <metal_graphics>
-#include <metal_matrix>
-#include <metal_geometric>
-#include <metal_math>
-#include <metal_texture>
+#include <metal_stdlib>
 
 using namespace metal;
+
 
 struct VertexInOut
 {
@@ -41,4 +37,38 @@ fragment half4 imageQuadFragment(VertexInOut inFrag[[ stage_in ]], texture2d<hal
     
     return color;
 }
+
+
+//No need flip color for mxnet data and model
+kernel void adjust_mean_rgb(texture2d<half, access::read> inTexture [[texture(0)]],
+                            texture2d<half, access::write> outTexture [[texture(1)]],
+                            uint2 gid [[thread_position_in_grid]])
+{
+    half4 inColor = inTexture.read(gid);
+    half4 outColor = half4(inColor.x*255.0 - 123.68, inColor.y*255.0 - 116.779, inColor.z*255.0 - 103.939, 1.0);
+    outTexture.write(outColor, gid);
+}
+
+kernel void reverse_mean_rgb_mxnet(texture2d<half, access::read> inTexture[[texture(0)]],
+                                   texture2d<half, access::write> outTexture[[texture(1)]],
+                                   uint2 gid[[thread_position_in_grid]])
+{
+    half4 inColor = inTexture.read(gid);
+    half4 outColor =  half4((inColor.x + 123.68)/255.0, (inColor.y + 116.779)/255.0, (inColor.z+103.939)/255.0, 1.0);
+    outTexture.write(outColor, gid);
+}
+
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+kernel void nearest_upsample_rgb(texture2d_array<half, access::read> inTexture[[texture(0)]],
+                                 texture2d_array<half, access::write> outTexture[[texture(1)]],
+                                 uint3 gid[[thread_position_in_grid]])
+{
+    uint2 p;
+    p = uint2(gid.x / 2, gid.y / 2);
+    const half4 color = inTexture.read(p, gid.z);
+    
+    outTexture.write(color, gid.xy, gid.z);
+}
+///@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 

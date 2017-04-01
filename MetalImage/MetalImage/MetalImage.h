@@ -10,8 +10,8 @@
 #import "MetalImageFilter.h"
 #import "MetalImageView.h"
 #import "MetalImagePicture.h"
-#import "AssertLoader/MetalImageTexture.h"
-#import "AssertLoader/MetalImageTexturePVR.h"
+#import "MetalImageTexture.h"
+#import "MetalImageTexturePVR.h"
 #import "MetalImageVideoCamera.h"
 #import "MetalImageVideo.h"
 #import "MetalImageGrayFilter.h"
@@ -25,5 +25,6 @@
 #import "MetalImageBeautyFilter.h"
 #import "MetalImageGammaFilter.h"
 #import "MetalImageLuminanceFilter.h"
+#import "MetalImageObjLoader.h"
 
 

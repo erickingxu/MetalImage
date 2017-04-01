@@ -12,7 +12,7 @@
 #import <Metal/Metal.h>
 #import <UIKit/UIKit.h>
 #import <CoreMedia/CoreMedia.h>
-#import "AssertLoader/MetalImageTexture.h"
+#import "MetalImageTexture.h"
 
 typedef enum {
     kMetalImageNoRotation,
@@ -51,6 +51,7 @@ typedef enum {
 - (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
 - (void)setInputTexture:(MetalImageTexture *)newInputTexture atIndex:(NSInteger)textureIndex;
 - (NSInteger)nextAvailableTextureIndex;
+@optional
 - (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex;
 -(void)setInputCommandBuffer:(id <MTLCommandBuffer>)cmdBuffer atIndex:(NSInteger)index;
 //- (void)setInputRotation:(GPUImageRotationMode)newInputRotation atIndex:(NSInteger)textureIndex;

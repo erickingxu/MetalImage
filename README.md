@@ -1,6 +1,7 @@
-# MetalImage
+##MetalImage
 
 A GPU-Processing Library for Images, Videos in iOS.
+
 *Author: Ericking Xu
 *Email : erickingxu@gmail.com
 

@@ -6,7 +6,7 @@
 * Email : erickingxu@gmail.com
 
 
-## Overview
+## Overview ##
 
 *MetalImage is a better way for using GPU to process images and videos in iOS, and later will support Mac OSX.
 *So I try my best to do some intresting algorithms with Metal,like intelligent beauty, 2d face-change, 3D-Animation rendering.
@@ -19,7 +19,7 @@ So if you are familar to GPUImage, you will find it is very easy to use in Metal
 * 2).Some face detections interface will be provided with this library, maybe need some days.
 * 3).Some optimizations will be updated.
 
-##ToDo list in future
+## ToDo list in future
 
 * add crop filter and easy interface for single filter. ---Need 1 workday
 * add 3d model viewer and loader 

@@ -28,8 +28,8 @@
 -(void)startupVideo
 {
     vc     = [[MetalImageVideoCamera alloc] init];
-    filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
-    //filter = [[MetalImageGammaFilter alloc] init ];//WithCnn:@"prisma0" withSize:CGSizeMake(512, 512)];
+    filter    = [[MetalImageBeautyFilter alloc] init];
+filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
     
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = kMetalImageRotateLeft;

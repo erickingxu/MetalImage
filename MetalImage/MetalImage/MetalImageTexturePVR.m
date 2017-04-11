@@ -2,8 +2,8 @@
 //  MetalImageTexturePVR.m
 //  MetalImage
 //
-//  Created by xuqing on 8/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 8/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageTexturePVR.h"

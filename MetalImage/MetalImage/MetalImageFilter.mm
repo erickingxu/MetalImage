@@ -2,8 +2,8 @@
 //  MetalImageFilter.m
 //  MetalImage
 //
-//  Created by xuqing on 1/8/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 1/8/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageFilter.h"
@@ -68,7 +68,7 @@ static const simd::float4 imageVertices[] = {
     _threadGroupSize = MTLSizeMake(16, 16, 1);
     _depthPixelFormat           = pline->depthPixelFormat;
     _stencilPixelFormat         = pline->stencilPixelFormat;
-    //_bFBOOnly           = NO;
+    
     firstInputTexture           = nil;
     outputTexture               = nil;
     inputRotation               = pline->orient;

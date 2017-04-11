@@ -15,7 +15,7 @@ struct VertexInOut
     float2 m_TexCoord [[user(texturecoord)]];
 };
 
-vertex VertexInOut clipVertex(constant float4         *pPosition[[ buffer(0) ]],
+vertex VertexInOut cropVertex(constant float4         *pPosition[[ buffer(0) ]],
                                constant packed_float2  *pTexCoords[[ buffer(1) ]],
                                uint                     vid[[ vertex_id ]]        )
 {
@@ -27,7 +27,7 @@ vertex VertexInOut clipVertex(constant float4         *pPosition[[ buffer(0) ]],
     return outVertices;
 }
 
-fragment half4 clipFragment(VertexInOut inFrag[[ stage_in ]], texture2d<half> inTex[[ texture(0) ]], texture2d<half> outTex[[texture(1)]])
+fragment half4 cropFragment(VertexInOut inFrag[[ stage_in ]], texture2d<half> inTex[[ texture(0) ]], texture2d<half> outTex[[texture(1)]])
 {
     constexpr sampler qsampler;
     half4 srcColor    = inTex.sample(qsampler, inFrag.m_TexCoord);

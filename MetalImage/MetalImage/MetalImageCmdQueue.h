@@ -2,8 +2,8 @@
 //  MetalImageCmdQueue.h
 //  MetalImage
 //
-//  Created by xuqing on 11/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 11/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 //Details refer to:https://developer.apple.com/library/prerelease/content/documentation/Miscellaneous/Conceptual/MetalProgrammingGuide/Cmd-Submiss/Cmd-Submiss.html#//apple_ref/doc/uid/TP40014221-CH3-SW1
 

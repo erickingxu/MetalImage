@@ -2,8 +2,8 @@
 //  MetalImageTransforms.h
 //  MetalImage
 //
-//  Created by xuqing on 12/1/2017.
-//  Copyright © 2017 xuqing. All rights reserved.
+//  Created by erickingxu on 12/1/2017.
+//  Copyright © 2017 erickingxu. All rights reserved.
 //
 
 #ifndef MetalImageTransforms_h

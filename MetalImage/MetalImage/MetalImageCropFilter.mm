@@ -26,8 +26,8 @@
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
-    peline.vertexFuncNameStr  =  @"clipVertex";
-    peline.fragmentFuncNameStr=  @"clipFragment";
+    peline.vertexFuncNameStr  =  @"cropVertex";
+    peline.fragmentFuncNameStr=  @"cropFragment";
     peline.computeFuncNameStr =  @"";
     
     if (!(self = [super initWithMetalPipeline:&peline]))

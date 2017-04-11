@@ -2,8 +2,8 @@
 //  MetalImageCmdQueue.m
 //  MetalImage
 //
-//  Created by xuqing on 11/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 11/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageCmdQueue.h"

@@ -2,8 +2,8 @@
 //  MetalImageGammaFilter.m
 //  MetalImage
 //
-//  Created by xuqing on 21/9/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 21/9/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageGammaFilter.h"

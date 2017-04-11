@@ -2,8 +2,8 @@
 //  imgGaussian.metal
 //  MetalImage
 //
-//  Created by xuqing on 27/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 27/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #include <metal_stdlib>

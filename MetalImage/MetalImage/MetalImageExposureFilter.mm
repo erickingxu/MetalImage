@@ -2,8 +2,8 @@
 //  MetalImageExposureFilter.m
 //  MetalImage
 //
-//  Created by xuqing on 25/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 25/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageExposureFilter.h"

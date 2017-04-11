@@ -2,8 +2,8 @@
 //  MetalImagePicture.h
 //  MetalImage
 //
-//  Created by xuqing on 3/8/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 3/8/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

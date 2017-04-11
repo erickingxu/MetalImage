@@ -2,8 +2,8 @@
 //  MetalImageCustomFilter.m
 //  MetalImage
 //
-//  Created by xuqing on 8/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 8/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageCustomFilter.h"
@@ -107,6 +107,8 @@ static const simd::float2 rotate180TextureCoordinates[kCntQuadTexCoords] = {
     {1.0f, 0.0f},
     {0.0f, 0.0f},
 };
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -394,9 +396,26 @@ static const simd::float2 rotate180TextureCoordinates[kCntQuadTexCoords] = {
                                                         options:MTLResourceOptionCPUCacheModeDefault];
         }
             break;
+        case  MetalOrientationPortraitUpsideDown:
+// Device oriented vertically, home button on the top
+            _coordBuffer = [_imgfilterDevice newBufferWithBytes: rotateRightTextureCoordinates
+                                                         length:kSzQuadTexCoords
+                                                        options:MTLResourceOptionCPUCacheModeDefault];
+            break;
+        case  MetalOrientationFaceUp:             // Device oriented flat, face up
+            _coordBuffer = [_imgfilterDevice newBufferWithBytes: verticalFlipTextureCoordinates
+                                                         length:kSzQuadTexCoords
+                                                        options:MTLResourceOptionCPUCacheModeDefault];
+            
+            break;
+        case MetalOrientationFaceDown:
+            _coordBuffer = [_imgfilterDevice newBufferWithBytes: horizontalFlipTextureCoordinates
+                                                         length:kSzQuadTexCoords
+                                                        options:MTLResourceOptionCPUCacheModeDefault];
+            break;
         default:
         {
-            _coordBuffer = [_imgfilterDevice newBufferWithBytes:noRotationTextureCoordinates
+            _coordBuffer = [_imgfilterDevice newBufferWithBytes: rotate180TextureCoordinates
                                                          length:kSzQuadTexCoords
                                                         options:MTLResourceOptionCPUCacheModeDefault];
         }

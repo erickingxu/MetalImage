@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D0059AF1D993E8400AD41F4 /* imgGamma.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D0059AE1D993E8400AD41F4 /* imgGamma.metal */; };
+		0D0A1C5C1E9C761D0016610D /* imgCrop.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D0A1C5B1E9C761D0016610D /* imgCrop.metal */; };
 		0D3195D91D5B2F2B00451566 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195D81D5B2F2B00451566 /* main.m */; };
 		0D3195DC1D5B2F2B00451566 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195DB1D5B2F2B00451566 /* AppDelegate.m */; };
 		0D3195DF1D5B2F2B00451566 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195DE1D5B2F2B00451566 /* ViewController.m */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		0D0059AE1D993E8400AD41F4 /* imgGamma.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgGamma.metal; path = ../../MetalImage/MetalImage/Shaders/imgGamma.metal; sourceTree = "<group>"; };
+		0D0A1C5B1E9C761D0016610D /* imgCrop.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgCrop.metal; path = ../../MetalImage/MetalImage/Shaders/imgCrop.metal; sourceTree = "<group>"; };
 		0D3195D41D5B2F2B00451566 /* MetalVideoFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalVideoFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D3195D81D5B2F2B00451566 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0D3195DA1D5B2F2B00451566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		0D3195EE1D5B2F5300451566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0D0A1C5B1E9C761D0016610D /* imgCrop.metal */,
 				0D3195EF1D5B2F7E00451566 /* baseFilter.metal */,
 				0D3195F01D5B2F7E00451566 /* imageQuad.metal */,
 				0D0059AE1D993E8400AD41F4 /* imgGamma.metal */,
@@ -246,6 +249,7 @@
 			files = (
 				0D3195DF1D5B2F2B00451566 /* ViewController.m in Sources */,
 				0D3195F91D5B2F7E00451566 /* imageQuad.metal in Sources */,
+				0D0A1C5C1E9C761D0016610D /* imgCrop.metal in Sources */,
 				0D3195FC1D5B2F7E00451566 /* imgExposure.metal in Sources */,
 				0D3195FB1D5B2F7E00451566 /* imgContrast.metal in Sources */,
 				0D3195FF1D5B2F7E00451566 /* imgLuminance.metal in Sources */,

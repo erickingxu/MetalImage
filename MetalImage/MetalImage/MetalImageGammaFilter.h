@@ -2,8 +2,8 @@
 //  MetalImageGammaFilter.h
 //  MetalImage
 //
-//  Created by xuqing on 21/9/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 21/9/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 ////This filter provided another way for processing image ,just using render pass's fragment pixels process without parall-computing
 

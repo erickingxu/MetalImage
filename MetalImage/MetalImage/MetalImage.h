@@ -2,8 +2,8 @@
 //  MetalImage.h
 //  MetalImage
 //
-//  Created by xuqing on 14/7/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 14/7/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageCmdQueue.h"
@@ -26,5 +26,7 @@
 #import "MetalImageGammaFilter.h"
 #import "MetalImageLuminanceFilter.h"
 #import "MetalImageObjLoader.h"
+#import "MetalImageCropFilter.h"
+
 
 

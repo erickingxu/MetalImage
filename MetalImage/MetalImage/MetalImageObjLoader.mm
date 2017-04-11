@@ -2,8 +2,8 @@
 //  MetalImageObjLoader.m
 //  MetalImage
 //
-//  Created by xuqing on 15/1/2017.
-//  Copyright © 2017 xuqing. All rights reserved.
+//  Created by erickingxu on 15/1/2017.
+//  Copyright © 2017 erickingxu. All rights reserved.
 //
 #include "shaderTypes.h"
 #import "MetalImageObjLoader.h"

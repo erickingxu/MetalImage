@@ -2,8 +2,8 @@
 //  MetalImageMpsCnn.h
 //  MetalImage
 //
-//  Created by xuqing on 22/3/2017.
-//  Copyright © 2017 xuqing. All rights reserved.
+//  Created by erickingxu on 22/3/2017.
+//  Copyright © 2017 erickingxu. All rights reserved.
 //
 
 

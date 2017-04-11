@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0A1C561E9C74700016610D /* MetalImageCropFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D0A1C541E9C74700016610D /* MetalImageCropFilter.h */; };
+		0D0A1C571E9C74700016610D /* MetalImageCropFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0D0A1C551E9C74700016610D /* MetalImageCropFilter.mm */; };
+		0D0A1C591E9C74E50016610D /* imgCrop.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D0A1C581E9C74E50016610D /* imgCrop.metal */; };
 		0D30EA9F1E482E0200C456C8 /* MetalImageObjLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D30EA981E482E0200C456C8 /* MetalImageObjLoader.h */; };
 		0D30EAA01E482E0200C456C8 /* MetalImageObjLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D30EA981E482E0200C456C8 /* MetalImageObjLoader.h */; };
 		0D30EAA11E482E0200C456C8 /* MetalImageObjLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EA991E482E0200C456C8 /* MetalImageObjLoader.mm */; };
@@ -158,6 +161,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D0A1C541E9C74700016610D /* MetalImageCropFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalImageCropFilter.h; sourceTree = "<group>"; };
+		0D0A1C551E9C74700016610D /* MetalImageCropFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalImageCropFilter.mm; sourceTree = "<group>"; };
+		0D0A1C581E9C74E50016610D /* imgCrop.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = imgCrop.metal; sourceTree = "<group>"; };
 		0D30EA981E482E0200C456C8 /* MetalImageObjLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalImageObjLoader.h; path = MetalImage/MetalImageObjLoader.h; sourceTree = SOURCE_ROOT; };
 		0D30EA991E482E0200C456C8 /* MetalImageObjLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalImageObjLoader.mm; path = MetalImage/MetalImageObjLoader.mm; sourceTree = SOURCE_ROOT; };
 		0D30EA9A1E482E0200C456C8 /* MetalImageTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalImageTexture.h; path = MetalImage/MetalImageTexture.h; sourceTree = SOURCE_ROOT; };
@@ -307,6 +313,8 @@
 		0D8A9DA71D6ED37A000FFC11 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
+				0D0A1C541E9C74700016610D /* MetalImageCropFilter.h */,
+				0D0A1C551E9C74700016610D /* MetalImageCropFilter.mm */,
 				0DB49F9B1D465D1900F2DF73 /* MetalImageExposureFilter.h */,
 				0DB49F9C1D465D1900F2DF73 /* MetalImageExposureFilter.mm */,
 				0DC9B3511D48C2D200FEA3ED /* MetalImageGaussianFilter.h */,
@@ -387,6 +395,7 @@
 		0DD9C4D01D2F816E00421104 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				0D0A1C581E9C74E50016610D /* imgCrop.metal */,
 				0D4B941A1D3F7ACF00757C18 /* imageQuad.metal */,
 				0D4B94171D3F797200757C18 /* imgGray.metal */,
 				0D3FAA9C1D462086008721F6 /* imgBrightness.metal */,
@@ -455,6 +464,7 @@
 				0DB49F9E1D465D1900F2DF73 /* MetalImageExposureFilter.h in Headers */,
 				0DC9B3541D48C2D200FEA3ED /* MetalImageGaussianFilter.h in Headers */,
 				0D49FA8B1D92679500231E70 /* MetalImageGammaFilter.h in Headers */,
+				0D0A1C561E9C74700016610D /* MetalImageCropFilter.h in Headers */,
 				0D30EAAC1E482E0200C456C8 /* shaderTypes.h in Headers */,
 				0D380B6E1D3744E900AF24EE /* MetalImageCustomFilter.h in Headers */,
 				0D30EAA01E482E0200C456C8 /* MetalImageObjLoader.h in Headers */,
@@ -628,9 +638,11 @@
 				0D380B681D37448300AF24EE /* MetalImageCustomView.m in Sources */,
 				0D3195C61D5ADD1E00451566 /* MetalImageVideoCamera.m in Sources */,
 				0DD2FAC01D6C263C00813A30 /* MetalImageBeautyFilter.m in Sources */,
+				0D0A1C591E9C74E50016610D /* imgCrop.metal in Sources */,
 				0D30EAA21E482E0200C456C8 /* MetalImageObjLoader.mm in Sources */,
 				0DC5B1A71D5972960032E81A /* baseFilter.metal in Sources */,
 				0D30EAA61E482E0200C456C8 /* MetalImageTexture.m in Sources */,
+				0D0A1C571E9C74700016610D /* MetalImageCropFilter.mm in Sources */,
 				0DBE5DFE1D64A91A0030E81D /* imgColorInvert.metal in Sources */,
 				0DD2FAC41D6C33AA00813A30 /* imgBeauty.metal in Sources */,
 				0DBE5DFB1D64A8A50030E81D /* imgHaze.metal in Sources */,

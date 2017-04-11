@@ -2,8 +2,8 @@
 //  MetalImageVideoCamera.h
 //  MetalImage
 //
-//  Created by xuqing on 10/8/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 10/8/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import <AVFoundation/AVFoundation.h>

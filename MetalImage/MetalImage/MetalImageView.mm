@@ -2,8 +2,8 @@
 //  MetalImageView.m
 //  MetalImage
 //
-//  Created by xuqing on 2/8/2016.
-//  Copyright © 2016 xuqing. All rights reserved.
+//  Created by erickingxu on 2/8/2016.
+//  Copyright © 2016 erickingxu. All rights reserved.
 //
 
 #import "MetalImageView.h"

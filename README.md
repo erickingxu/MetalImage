@@ -21,7 +21,6 @@ Today,I decided to share my works with a memorable date of birth of my daughter,
 
 ## To-do list in future
 
-* add crop filter and easy interface for single filter. ---Need 1 workday
 * add 3d model viewer and loader 
 * update other beauty algorithm
 

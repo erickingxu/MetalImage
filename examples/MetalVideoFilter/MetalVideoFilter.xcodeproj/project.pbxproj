@@ -69,6 +69,7 @@
 		0D3195F71D5B2F7E00451566 /* imgSaturation.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgSaturation.metal; path = ../../MetalImage/MetalImage/Shaders/imgSaturation.metal; sourceTree = "<group>"; };
 		0D3196011D5B2F9500451566 /* MetalImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetalImage.xcodeproj; path = ../../MetalImage/MetalImage.xcodeproj; sourceTree = "<group>"; };
 		0D8A9D971D6D9E83000FFC11 /* imgBeauty.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgBeauty.metal; path = ../../MetalImage/MetalImage/Shaders/imgBeauty.metal; sourceTree = "<group>"; };
+		0DBEBF9E1F24B628005291BD /* imgToneCurve.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = imgToneCurve.metal; path = ../../MetalImage/MetalImage/Shaders/imgToneCurve.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +129,7 @@
 		0D3195EE1D5B2F5300451566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0DBEBF9E1F24B628005291BD /* imgToneCurve.metal */,
 				0D0A1C5B1E9C761D0016610D /* imgCrop.metal */,
 				0D3195EF1D5B2F7E00451566 /* baseFilter.metal */,
 				0D3195F01D5B2F7E00451566 /* imageQuad.metal */,
@@ -184,7 +186,7 @@
 				TargetAttributes = {
 					0D3195D31D5B2F2B00451566 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = PVE2WH4PE2;
+						DevelopmentTeam = A7XW5YTQNJ;
 					};
 				};
 			};
@@ -379,7 +381,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PVE2WH4PE2;
+				DEVELOPMENT_TEAM = A7XW5YTQNJ;
 				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
 				INFOPLIST_FILE = MetalVideoFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -399,7 +401,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PVE2WH4PE2;
+				DEVELOPMENT_TEAM = A7XW5YTQNJ;
 				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
 				INFOPLIST_FILE = MetalVideoFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

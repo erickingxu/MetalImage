@@ -28,9 +28,9 @@
 -(void)startupVideo
 {
     vc     = [[MetalImageVideoCamera alloc] init];
-    filter    = [[MetalImageBeautyFilter alloc] init];
-filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
-    
+//    filter    = [[MetalImageBeautyFilter alloc] init];
+    filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
+//    filter = [[MetalImageToneCurveFilter alloc] initWithACV:@"Amaro"];
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = kMetalImageRotateLeft;
     [vc addTarget:filter];

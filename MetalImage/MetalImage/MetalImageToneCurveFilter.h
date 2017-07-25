@@ -13,5 +13,7 @@
 ///// This pulls in Adobe ACV curve files to specify the tone curve
 - (id)initWithACVURL:(NSURL*)curveFileURL;
 
+// for change different tone curve for image effect.
+- (void)updateCurve:(NSData*)curveData;
 @end
 

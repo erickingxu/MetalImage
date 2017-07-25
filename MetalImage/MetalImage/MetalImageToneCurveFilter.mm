@@ -462,7 +462,18 @@ unsigned short int16WithBytes(Byte* bytes)
     
     
 }
-
+// for change different tone curve for image effect.
+- (void)updateCurve:(NSData*)curveData
+{
+    parseACVFile *curve = [[parseACVFile alloc] initWithACVFileData:curveData];
+    
+    [self setRgbCompositeControlPoints:curve.rgbCompositeCurvePoints];
+    [self setRedControlPoints:curve.redCurvePoints];
+    [self setGreenControlPoints:curve.greenCurvePoints];
+    [self setBlueControlPoints:curve.blueCurvePoints];
+    
+    curve = nil;
+}
 ///////////////////////////Parse acv data func in END//////////////////
 #pragma mark -
 #pragma mark Accessors

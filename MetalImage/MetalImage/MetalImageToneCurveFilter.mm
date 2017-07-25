@@ -97,9 +97,9 @@ unsigned short int16WithBytes(Byte* bytes)
 ///////////////////////////////////////////////////////////////////////////////////////
 @implementation MetalImageToneCurveFilter
 {
-    id <MTLBuffer>                  _curveBuffer;
+    id <MTLBuffer>          _curveBuffer;
 
-    GLubyte *toneCurveByteArray;
+    simd::float3            *toneCurveArray;
     
     NSArray *_redCurve, *_greenCurve, *_blueCurve, *_rgbCompositeCurve;
     NSArray *_redControlPoints ,*_greenControlPoints, *_blueControlPoints, *_rgbCompositeControlPoints;
@@ -108,6 +108,22 @@ unsigned short int16WithBytes(Byte* bytes)
 
 -(id)init
 {
+    METAL_PIPELINE_STATE peline ;
+    peline.depthPixelFormat   =  MTLPixelFormatDepth32Float;
+    peline.stencilPixelFormat =  MTLPixelFormatInvalid;
+    peline.orient             =  kMetalImageNoRotation;
+    peline.sampleCount        =  1;
+    peline.computeFuncNameStr =  @"imgToneCurve";
+    if (!(self = [super initWithMetalPipeline:&peline]))
+    {
+        return nil;
+    }
+    
+    if (!self.filterDevice )
+    {
+        return nil;
+    }
+    
     NSArray *defaultCurve = [NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, 0.5)], [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)], nil];
 
     [self setRgbCompositeControlPoints:defaultCurve];
@@ -116,6 +132,13 @@ unsigned short int16WithBytes(Byte* bytes)
     [self setBlueControlPoints:defaultCurve];
     defaultCurve = nil;
     
+    
+    return self;
+}
+
+///// This pulls in Adobe ACV curve files to specify the tone curve
+- (id)initWithACVData:(NSData *)data
+{
     METAL_PIPELINE_STATE peline ;
     peline.depthPixelFormat   =  MTLPixelFormatDepth32Float;
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
@@ -132,12 +155,6 @@ unsigned short int16WithBytes(Byte* bytes)
         return nil;
     }
     
-    return self;
-}
-
-///// This pulls in Adobe ACV curve files to specify the tone curve
-- (id)initWithACVData:(NSData *)data
-{
    parseACVFile *curve = [[parseACVFile alloc] initWithACVFileData:data];
     
     [self setRgbCompositeControlPoints:curve.rgbCompositeCurvePoints];
@@ -146,21 +163,6 @@ unsigned short int16WithBytes(Byte* bytes)
     [self setBlueControlPoints:curve.blueCurvePoints];
     
     curve = nil;
-    METAL_PIPELINE_STATE peline ;
-    peline.depthPixelFormat   =  MTLPixelFormatDepth32Float;
-    peline.stencilPixelFormat =  MTLPixelFormatInvalid;
-    peline.orient             =  kMetalImageNoRotation;
-    peline.sampleCount        =  1;
-    peline.computeFuncNameStr =  @"imgToneCurve";
-    if (!(self = [super initWithMetalPipeline:&peline]))
-    {
-        return nil;
-    }
-    
-    if (!self.filterDevice )
-    {
-        return nil;
-    }
     
     
     return self;
@@ -169,7 +171,7 @@ unsigned short int16WithBytes(Byte* bytes)
 
 - (void)dealloc
 {
-    free(toneCurveByteArray);
+    free(toneCurveArray);
 }
 
 
@@ -195,11 +197,6 @@ unsigned short int16WithBytes(Byte* bytes)
 }
 
 ///////////////////////////Parse acv data func in private//////////////////
-- (id)initWithACV:(NSString*)curveFilename
-{
-    return [self initWithACVURL:[[NSBundle mainBundle] URLForResource:curveFilename
-                                                        withExtension:@"acv"]];
-}
 
 - (id)initWithACVURL:(NSURL*)curveFileURL
 {
@@ -435,10 +432,10 @@ unsigned short int16WithBytes(Byte* bytes)
 
 - (void)updateToneCurveBuffer
 {
-        if (!toneCurveByteArray)
+        if (!toneCurveArray)
         {
             
-            toneCurveByteArray = (GLubyte*)calloc(256 * 4, sizeof(GLubyte));
+            toneCurveArray = (simd::float3*)calloc(256, sizeof(simd::float3));
         }
     
         if ( ([_redCurve count] >= 256) && ([_greenCurve count] >= 256) && ([_blueCurve count] >= 256) && ([_rgbCompositeCurve count] >= 256))
@@ -446,17 +443,27 @@ unsigned short int16WithBytes(Byte* bytes)
             for (unsigned int currentCurveIndex = 0; currentCurveIndex < 256; currentCurveIndex++)
             {
                 // BGRA for upload to texture
+                simd::float3 rgb = {0.0,0.0,0.0};
                 GLubyte b = fmin(fmax(currentCurveIndex + [[_blueCurve objectAtIndex:currentCurveIndex] floatValue], 0), 255);
-                toneCurveByteArray[currentCurveIndex * 4] = fmin(fmax(b + [[_rgbCompositeCurve objectAtIndex:b] floatValue], 0), 255);
+                rgb.x = (float)fmin(fmax(b + [[_rgbCompositeCurve objectAtIndex:b] floatValue], 0), 255) / 255.0;
+
                 GLubyte g = fmin(fmax(currentCurveIndex + [[_greenCurve objectAtIndex:currentCurveIndex] floatValue], 0), 255);
-                toneCurveByteArray[currentCurveIndex * 4 + 1] = fmin(fmax(g + [[_rgbCompositeCurve objectAtIndex:g] floatValue], 0), 255);
+                rgb.y = (float) fmin(fmax(g + [[_rgbCompositeCurve objectAtIndex:g] floatValue], 0), 255) / 255.0;
+                
                 GLubyte r = fmin(fmax(currentCurveIndex + [[_redCurve objectAtIndex:currentCurveIndex] floatValue], 0), 255);
-                toneCurveByteArray[currentCurveIndex * 4 + 2] = fmin(fmax(r + [[_rgbCompositeCurve objectAtIndex:r] floatValue], 0), 255);
-                toneCurveByteArray[currentCurveIndex * 4 + 3] = 255;
+                rgb.z = (float) fmin(fmax(r + [[_rgbCompositeCurve objectAtIndex:r] floatValue], 0), 255) / 255.0;
+                
+                toneCurveArray[currentCurveIndex] = rgb;
             }
-            unsigned int sz = 256 * 4 * sizeof(GLubyte);
-            _curveBuffer          = [self.filterDevice newBufferWithBytes:&toneCurveByteArray length: sz  options:MTLResourceOptionCPUCacheModeDefault];
+            unsigned int sz = 256  * sizeof(simd::float3);
+            _curveBuffer   = [self.filterDevice newBufferWithBytes:&toneCurveArray length: sz  options:MTLResourceStorageModeShared];
+            if (!_curveBuffer)
+            {
+                NSLog(@"Error for create buffer");
+            }
         }
+    
+    
 }
 
 ///////////////////////////Parse acv data func in END//////////////////

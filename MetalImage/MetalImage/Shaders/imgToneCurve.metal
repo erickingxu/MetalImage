@@ -18,14 +18,14 @@ kernel void imgToneCurve(
                         )
 {
     const float4 inColor = inTexture.read(gid);
-    unsigned int rvalue = inColor.r * 256 ? 255 : (inColor.r * 256);
-    unsigned int gvalue = inColor.g * 256 ? 255 : (inColor.g * 256);
-    unsigned int bvalue = inColor.b * 256 ? 255 : (inColor.b * 256);
+    unsigned int rvalue = inColor.r * 256 > 255 ? 255 : (inColor.r * 256);
+    unsigned int gvalue = inColor.g * 256 > 255 ? 255 : (inColor.g * 256);
+    unsigned int bvalue = inColor.b * 256 > 255 ? 255 : (inColor.b * 256);
     
-    float  b = *(curveBuffer + rvalue*4);
-    float  g = *(curveBuffer + gvalue*4+1);
-    float  r = *(curveBuffer + bvalue*4+2);
+    float  b = *(curveBuffer + bvalue*3);
+    float  g = *(curveBuffer + gvalue*3+1);
+    float  r = *(curveBuffer + rvalue*3+2);
     
-    const float4 outColor = float4( r, g, b,inColor.a);
+    const float4 outColor = float4(r , g, b, inColor.a);
     outTexture.write(outColor, gid);
 }

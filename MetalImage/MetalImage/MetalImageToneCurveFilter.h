@@ -11,7 +11,7 @@
 @interface MetalImageToneCurveFilter : MetalImageFilter
 
 ///// This pulls in Adobe ACV curve files to specify the tone curve
-- (id)initWithACV:(NSString*)curveFilename;
+- (id)initWithACVURL:(NSURL*)curveFileURL;
 
 @end
 

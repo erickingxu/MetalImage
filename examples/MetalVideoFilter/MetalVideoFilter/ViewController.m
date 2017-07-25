@@ -29,8 +29,9 @@
 {
     vc     = [[MetalImageVideoCamera alloc] init];
 //    filter    = [[MetalImageBeautyFilter alloc] init];
-    filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
-//    filter = [[MetalImageToneCurveFilter alloc] initWithACV:@"Amaro"];
+//    filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
+    NSURL *fileUrl = [[NSBundle mainBundle] URLForResource:@"Amaro" withExtension:@".acv"];
+    filter = [[MetalImageToneCurveFilter alloc] initWithACVURL:fileUrl];
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = kMetalImageRotateLeft;
     [vc addTarget:filter];

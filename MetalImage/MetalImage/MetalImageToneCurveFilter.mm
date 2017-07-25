@@ -99,7 +99,7 @@ unsigned short int16WithBytes(Byte* bytes)
 {
     id <MTLBuffer>          _curveBuffer;
 
-    simd::float3            *toneCurveArray;
+    float            toneCurveArray[768];
     
     NSArray *_redCurve, *_greenCurve, *_blueCurve, *_rgbCompositeCurve;
     NSArray *_redControlPoints ,*_greenControlPoints, *_blueControlPoints, *_rgbCompositeControlPoints;
@@ -169,10 +169,10 @@ unsigned short int16WithBytes(Byte* bytes)
 }
 
 
-- (void)dealloc
-{
-    free(toneCurveArray);
-}
+//- (void)dealloc
+//{
+//    free(toneCurveArray);
+//}
 
 
 /////////////////////////Metal func for calculate tone curve ////////////
@@ -432,30 +432,27 @@ unsigned short int16WithBytes(Byte* bytes)
 
 - (void)updateToneCurveBuffer
 {
-        if (!toneCurveArray)
-        {
-            
-            toneCurveArray = (simd::float3*)calloc(256, sizeof(simd::float3));
-        }
+    
     
         if ( ([_redCurve count] >= 256) && ([_greenCurve count] >= 256) && ([_blueCurve count] >= 256) && ([_rgbCompositeCurve count] >= 256))
         {
+
             for (unsigned int currentCurveIndex = 0; currentCurveIndex < 256; currentCurveIndex++)
             {
                 // BGRA for upload to texture
-                simd::float3 rgb = {0.0,0.0,0.0};
+
                 GLubyte b = fmin(fmax(currentCurveIndex + [[_blueCurve objectAtIndex:currentCurveIndex] floatValue], 0), 255);
-                rgb.x = (float)fmin(fmax(b + [[_rgbCompositeCurve objectAtIndex:b] floatValue], 0), 255) / 255.0;
+                
+                toneCurveArray[currentCurveIndex * 3 ] = (float)fmin(fmax(b + [[_rgbCompositeCurve objectAtIndex:b] floatValue], 0), 255) / 255.0;
 
                 GLubyte g = fmin(fmax(currentCurveIndex + [[_greenCurve objectAtIndex:currentCurveIndex] floatValue], 0), 255);
-                rgb.y = (float) fmin(fmax(g + [[_rgbCompositeCurve objectAtIndex:g] floatValue], 0), 255) / 255.0;
+                toneCurveArray[currentCurveIndex * 3 + 1] = (float) fmin(fmax(g + [[_rgbCompositeCurve objectAtIndex:g] floatValue], 0), 255) / 255.0;
                 
                 GLubyte r = fmin(fmax(currentCurveIndex + [[_redCurve objectAtIndex:currentCurveIndex] floatValue], 0), 255);
-                rgb.z = (float) fmin(fmax(r + [[_rgbCompositeCurve objectAtIndex:r] floatValue], 0), 255) / 255.0;
+                toneCurveArray[currentCurveIndex * 3 + 2 ] = (float) fmin(fmax(r + [[_rgbCompositeCurve objectAtIndex:r] floatValue], 0), 255) / 255.0;
                 
-                toneCurveArray[currentCurveIndex] = rgb;
             }
-            unsigned int sz = 256  * sizeof(simd::float3);
+            unsigned int sz = 256 * 3 * sizeof(float);
             _curveBuffer   = [self.filterDevice newBufferWithBytes:&toneCurveArray length: sz  options:MTLResourceStorageModeShared];
             if (!_curveBuffer)
             {

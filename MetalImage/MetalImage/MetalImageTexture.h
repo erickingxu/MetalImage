@@ -27,6 +27,13 @@
 -(id)initWithImage:(CGImageRef)img andWithMetalDevice:(id <MTLDevice>)device;
 -(id)initWithWidth:(uint32_t)imgWidth withHeight:(uint32_t)imgHeight;
 -(BOOL)loadTextureIntoDevice:(id <MTLDevice>)device;
+
+////////Heap and sub-allocate//////
+- (BOOL) loadAndGetRequiredHeapSizeAndAlign:(_Nonnull id<MTLDevice>)device
+                            outSizeAndAlign:(MTLSizeAndAlign* _Nonnull )outSizeAndAlign;
+
+- (BOOL) finalize:(nonnull id<MTLHeap>)heap;
+
 @end
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////

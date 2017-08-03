@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D0059AF1D993E8400AD41F4 /* imgGamma.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D0059AE1D993E8400AD41F4 /* imgGamma.metal */; };
 		0D0A1C5C1E9C761D0016610D /* imgCrop.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D0A1C5B1E9C761D0016610D /* imgCrop.metal */; };
-		0D17DD581F2719E500650F6B /* tone_cuver_sample.acv in Resources */ = {isa = PBXBuildFile; fileRef = 0D17DD551F2719D700650F6B /* tone_cuver_sample.acv */; };
 		0D3195D91D5B2F2B00451566 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195D81D5B2F2B00451566 /* main.m */; };
 		0D3195DC1D5B2F2B00451566 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195DB1D5B2F2B00451566 /* AppDelegate.m */; };
 		0D3195DF1D5B2F2B00451566 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195DE1D5B2F2B00451566 /* ViewController.m */; };
@@ -26,6 +25,7 @@
 		0D3196001D5B2F7E00451566 /* imgSaturation.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D3195F71D5B2F7E00451566 /* imgSaturation.metal */; };
 		0D31960D1D5B304100451566 /* libMetalImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3196091D5B2F9500451566 /* libMetalImage.a */; };
 		0D8A9D981D6D9E83000FFC11 /* imgBeauty.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0D8A9D971D6D9E83000FFC11 /* imgBeauty.metal */; };
+		0D9B65301F336D6E008A50EC /* Amaro.acv in Resources */ = {isa = PBXBuildFile; fileRef = 0D9B652F1F336D6E008A50EC /* Amaro.acv */; };
 		0DEF87CC1F259815007AA578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DEF87CA1F25976E007AA578 /* Assets.xcassets */; };
 		0DEF87D11F259A90007AA578 /* imgToneCurve.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0DEF87C91F2596A7007AA578 /* imgToneCurve.metal */; };
 /* End PBXBuildFile section */
@@ -50,7 +50,6 @@
 /* Begin PBXFileReference section */
 		0D0059AE1D993E8400AD41F4 /* imgGamma.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgGamma.metal; path = ../../MetalImage/MetalImage/Shaders/imgGamma.metal; sourceTree = "<group>"; };
 		0D0A1C5B1E9C761D0016610D /* imgCrop.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgCrop.metal; path = ../../MetalImage/MetalImage/Shaders/imgCrop.metal; sourceTree = "<group>"; };
-		0D17DD551F2719D700650F6B /* tone_cuver_sample.acv */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone_cuver_sample.acv; sourceTree = "<group>"; };
 		0D3195D41D5B2F2B00451566 /* MetalVideoFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalVideoFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D3195D81D5B2F2B00451566 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0D3195DA1D5B2F2B00451566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -71,6 +70,7 @@
 		0D3195F71D5B2F7E00451566 /* imgSaturation.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgSaturation.metal; path = ../../MetalImage/MetalImage/Shaders/imgSaturation.metal; sourceTree = "<group>"; };
 		0D3196011D5B2F9500451566 /* MetalImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetalImage.xcodeproj; path = ../../MetalImage/MetalImage.xcodeproj; sourceTree = "<group>"; };
 		0D8A9D971D6D9E83000FFC11 /* imgBeauty.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = imgBeauty.metal; path = ../../MetalImage/MetalImage/Shaders/imgBeauty.metal; sourceTree = "<group>"; };
+		0D9B652F1F336D6E008A50EC /* Amaro.acv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Amaro.acv; sourceTree = "<group>"; };
 		0DEF87C91F2596A7007AA578 /* imgToneCurve.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = imgToneCurve.metal; path = ../../MetalImage/MetalImage/Shaders/imgToneCurve.metal; sourceTree = "<group>"; };
 		0DEF87CA1F25976E007AA578 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,7 +90,6 @@
 		0D3195CB1D5B2F2B00451566 = {
 			isa = PBXGroup;
 			children = (
-				0D17DD551F2719D700650F6B /* tone_cuver_sample.acv */,
 				0D3195EE1D5B2F5300451566 /* Resources */,
 				0D3196011D5B2F9500451566 /* MetalImage.xcodeproj */,
 				0D3195D61D5B2F2B00451566 /* MetalVideoFilter */,
@@ -133,6 +132,7 @@
 		0D3195EE1D5B2F5300451566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0D9B652F1F336D6E008A50EC /* Amaro.acv */,
 				0DEF87C91F2596A7007AA578 /* imgToneCurve.metal */,
 				0D0A1C5B1E9C761D0016610D /* imgCrop.metal */,
 				0D3195EF1D5B2F7E00451566 /* baseFilter.metal */,
@@ -190,7 +190,7 @@
 				TargetAttributes = {
 					0D3195D31D5B2F2B00451566 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = PVE2WH4PE2;
+						DevelopmentTeam = HCAG6RSD4W;
 					};
 				};
 			};
@@ -240,8 +240,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D17DD581F2719E500650F6B /* tone_cuver_sample.acv in Resources */,
 				0DEF87CC1F259815007AA578 /* Assets.xcassets in Resources */,
+				0D9B65301F336D6E008A50EC /* Amaro.acv in Resources */,
 				0D3195E71D5B2F2B00451566 /* LaunchScreen.storyboard in Resources */,
 				0D3195E21D5B2F2B00451566 /* Main.storyboard in Resources */,
 			);
@@ -387,7 +387,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PVE2WH4PE2;
+				DEVELOPMENT_TEAM = HCAG6RSD4W;
 				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
 				INFOPLIST_FILE = MetalVideoFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -407,7 +407,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PVE2WH4PE2;
+				DEVELOPMENT_TEAM = HCAG6RSD4W;
 				HEADER_SEARCH_PATHS = ../../MetalImage/MetalImage;
 				INFOPLIST_FILE = MetalVideoFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -26,8 +26,8 @@ METAL_PIPELINE_STATE;
 
 @interface MetalImageFilter : MetalImageOutput<MetalImageInput>
 {
-    MetalImageTexture*      firstInputTexture;
-    MetalImageCmdQueue*     filterCommandQueue;
+    MetalImageTexture*              firstInputTexture;
+    MetalImageCmdQueue*             filterCommandQueue;
     id <MTLComputePipelineState>    _caclpipelineState;
     
     id <MTLRenderPipelineState>     _renderpipelineState;
@@ -40,9 +40,9 @@ METAL_PIPELINE_STATE;
     MTLSize                         _threadGroupSize;
     MTLSize                         _threadGroupCount;
     
-    BOOL                    isEndProcessing;
-    CGSize                  currentFilterSize;
-    MetalImageRotationMode  inputRotation;
+    BOOL                            isEndProcessing;
+    CGSize                          currentFilterSize;
+    MetalImageRotationMode          inputRotation;
 }
 
 @property(readonly,  nonatomic)id <MTLDevice>              filterDevice;
@@ -57,8 +57,13 @@ METAL_PIPELINE_STATE;
 
 -(void)caculateWithCommandBuffer:(id <MTLCommandBuffer>)commandBuffer;
 
+///attachment is real metal txture
+-(void)setInputAttachment:(id<MTLTexture>)texture  withWidth: (int)w withHeight:(int)h;
+-(id<MTLTexture>)outputAttachment;
+
 ////////////////////////Rendering//////////////////////////
 - (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime;
 - (CGSize)outputFrameSize;
+-(CGSize)inputFrameSize;
 -(BOOL)initRenderPassDescriptorFromTexture:(id <MTLTexture>)textureForOutput;
 @end

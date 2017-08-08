@@ -302,6 +302,28 @@ static const simd::float4 imageVertices[] = {
     return YES;
 }
 
+-(void)setInputAttachment:(id<MTLTexture>)texture  withWidth: (int)w withHeight:(int)h
+{
+    if ( !firstInputTexture)
+    {
+        firstInputTexture = [[MetalImageTexture alloc] initWithWidth:w withHeight:h];
+        [firstInputTexture loadTextureIntoDevice:_filterDevice];
+    }
+
+    firstInputTexture.texture = texture;
+    
+}
+
+-(id<MTLTexture>)outputAttachment
+{
+    if (!outputTexture)
+    {
+        outputTexture =  [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height];
+    }
+    return  outputTexture.texture;
+    
+}
+
 
 -(void)caculateWithCommandBuffer:(id <MTLCommandBuffer>)commandBuffer
 {
@@ -414,6 +436,16 @@ static const simd::float4 imageVertices[] = {
 -(void)setInputTexture:(MetalImageTexture *)newInputTexture atIndex:(NSInteger)textureIndex
 {
     firstInputTexture  = newInputTexture;//last filter's output texture
+}
+-(CGSize)inputFrameSize
+{
+    CGSize sz = CGSizeMake(0, 0);
+    if (firstInputTexture)
+    {
+        sz.width = firstInputTexture.width;
+        sz.height = firstInputTexture.height;
+    }
+    return sz;
 }
 
 - (CGSize)outputFrameSize

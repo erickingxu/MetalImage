@@ -25,8 +25,8 @@
 #import "MetalImageBeautyFilter.h"
 #import "MetalImageGammaFilter.h"
 #import "MetalImageLuminanceFilter.h"
-#import "MetalImageObjLoader.h"
+
 #import "MetalImageCropFilter.h"
 #import "MetalImageToneCurveFilter.h"
-
+#import "MetalImageFaceShapenFilter.h"
 

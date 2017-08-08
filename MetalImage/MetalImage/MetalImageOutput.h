@@ -26,6 +26,9 @@
 -(void)removeOutputTexture;
 
 -(NSArray*)targets;
+-(NSArray*)targetTextureIndices;
+-(id <MTLCommandBuffer>)sharedCmdBuffer;
+
 -(void)addTarget:(id <MetalImageInput>)newTarget;
 -(void)addTarget:(id<MetalImageInput>)newTarget  atTextureIndex: (NSInteger)textureLoc;
 

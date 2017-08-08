@@ -67,6 +67,15 @@
     return outputTexture;//from video or input images
 }
 
+-(id <MTLCommandBuffer>)sharedCmdBuffer
+{
+    if (sharedcommandBuffer)
+    {
+        return sharedcommandBuffer;
+    }
+    return Nil;
+}
+
 -(void)removeOutputTexture
 {
     outputTexture = nil;
@@ -75,6 +84,11 @@
 -(NSArray*)targets
 {
     return [NSArray arrayWithArray:targets];
+}
+
+-(NSArray*)targetTextureIndices
+{
+    return [NSArray arrayWithArray:targetTextureIndices];
 }
 
 -(void)addTarget:(id <MetalImageInput>)newTarget

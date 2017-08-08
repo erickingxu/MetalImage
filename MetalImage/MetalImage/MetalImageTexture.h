@@ -11,8 +11,10 @@
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 @interface MetalImageTexture : NSObject
-
-@property(readwrite) id<MTLTexture>  texture;
+{
+    
+}
+@property(readwrite, nonatomic) id<MTLTexture>  texture;
 @property(readwrite) uint32_t        width;
 @property(readwrite) uint32_t        height;
 @property(readwrite) uint32_t        depth;

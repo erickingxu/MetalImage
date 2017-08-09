@@ -4,7 +4,7 @@
 //
 //  Created by xuqing on 7/8/2017.
 //  Copyright © 2017 erickingxu. All rights reserved.
-//
+//  Paper refer to :http://www.gson.org/thesis/warping-thesis.pdf
 
 #import "MetalImageFaceShapenFilter.h"
 

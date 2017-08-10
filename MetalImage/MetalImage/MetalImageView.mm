@@ -5,7 +5,7 @@
 //  Created by erickingxu on 2/8/2016.
 //  Copyright © 2016 erickingxu. All rights reserved.
 //
-
+#import "MetalImageOrigin.h"
 #import "MetalImageView.h"
 #import <simd/simd.h>
 
@@ -391,7 +391,7 @@ static const simd::float4 imageVertices[] = {
 
 
 
-- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
+- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex withFrameData:(Texture_FrameData*)pFrameData;
 {
     
 @autoreleasepool

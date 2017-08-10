@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreMedia/CoreMedia.h>
 #import "MetalImageTexture.h"
+#import "MetalImageOrigin.h"
 
 typedef enum {
     kMetalImageNoRotation,
@@ -48,7 +49,7 @@ typedef enum {
 
 @protocol MetalImageInput <NSObject>
 
-- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
+- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex withFrameData:(Texture_FrameData*)pFrameData;
 - (void)setInputTexture:(MetalImageTexture *)newInputTexture atIndex:(NSInteger)textureIndex;
 - (NSInteger)nextAvailableTextureIndex;
 @optional

@@ -7,6 +7,8 @@
 //
 
 #import "MetalImageFilter.h"
+
+
 static const simd::float4 imageVertices[] = {
     { -1.0f,  -1.0f, 0.0f, 1.0f },
     {  1.0f,  -1.0f, 0.0f, 1.0f },
@@ -277,11 +279,11 @@ static const simd::float4 imageVertices[] = {
 
 
 
-- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
+- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex withFrameData:(Texture_FrameData*)pFrameData
 {
-    [self renderToTextureWithVertices:imageVertices textureCoordinates:[[self class] textureCoordinatesForRotation:inputRotation]];
+    [self renderToTextureWithVertices:imageVertices textureCoordinates:[[self class] textureCoordinatesForRotation:inputRotation] withAttachmentData:pFrameData];
     
-    [self informTargetsAboutNewFrameAtTime:frameTime];
+    [self informTargetsAboutNewFrameAtTime:frameTime withData: pFrameData];//Just need transfer to next filter chain
 }
 
 //////draw filter pass to view for assigned texture
@@ -364,7 +366,7 @@ static const simd::float4 imageVertices[] = {
 }
 
 
-- (void)renderToTextureWithVertices:(const simd::float4 *)vertices textureCoordinates:(const simd::float2 *)textureCoordinates
+- (void)renderToTextureWithVertices:(const simd::float4 *)vertices textureCoordinates:(const simd::float2 *)textureCoordinates withAttachmentData:(Texture_FrameData*)pFrameData
 {
     if (!firstInputTexture)
     {
@@ -406,7 +408,7 @@ static const simd::float4 imageVertices[] = {
     
 }
 
-- (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime
+- (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime  withData:(Texture_FrameData*)pFrameData
 {
     // Get all targets the framebuffer so they can grab a lock on it
     for (id<MetalImageInput> currentTarget in targets)
@@ -428,7 +430,7 @@ static const simd::float4 imageVertices[] = {
         {
             NSInteger indexOfObject = [targets indexOfObject:currentTarget];
             NSInteger textureIndex = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
-            [currentTarget newFrameReadyAtTime:frameTime atIndex:textureIndex];
+            [currentTarget newFrameReadyAtTime:frameTime atIndex:textureIndex withFrameData: pFrameData];
         }
     }
 }

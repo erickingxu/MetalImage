@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MetalImageOutput.h"
 #import <simd/simd.h>
+#import "MetalImageOrigin.h"
 
 typedef struct filterPipelineState
 {
@@ -62,7 +63,7 @@ METAL_PIPELINE_STATE;
 -(id<MTLTexture>)outputAttachment;
 
 ////////////////////////Rendering//////////////////////////
-- (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime;
+- (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime withData:(Texture_FrameData*)pFrameData;
 - (CGSize)outputFrameSize;
 -(CGSize)inputFrameSize;
 -(BOOL)initRenderPassDescriptorFromTexture:(id <MTLTexture>)textureForOutput;

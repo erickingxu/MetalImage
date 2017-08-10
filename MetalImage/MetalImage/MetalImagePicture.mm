@@ -92,7 +92,7 @@
            // [currentTarget setInputSize:pixelSize atIndex:textureIndexOfTarget];
             [currentTarget setInputTexture:outputTexture atIndex:textureIndexOfTarget];
             [currentTarget setInputCommandBuffer:sharedcommandBuffer atIndex:textureIndexOfTarget];
-            [currentTarget newFrameReadyAtTime:kCMTimeIndefinite atIndex:textureIndexOfTarget];
+            [currentTarget newFrameReadyAtTime:kCMTimeIndefinite atIndex:textureIndexOfTarget withFrameData:nil];
         }
         
         dispatch_semaphore_signal(imageUpdateSemaphore);

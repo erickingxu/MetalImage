@@ -151,7 +151,7 @@
         // [currentTarget setInputSize:pixelSize atIndex:textureIndexOfTarget];
         [currentTarget setInputTexture:outputTexture atIndex:textureIndexOfTarget];
         [currentTarget setInputCommandBuffer:sharedcommandBuffer atIndex:textureIndexOfTarget];//update every frame
-        [currentTarget newFrameReadyAtTime:frameTime atIndex:textureIndexOfTarget];
+        [currentTarget newFrameReadyAtTime:frameTime atIndex:textureIndexOfTarget withFrameData:nil];
     }
     
     

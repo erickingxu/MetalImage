@@ -5,7 +5,7 @@
 //  Created by erickingxu on 14/7/2016.
 //  Copyright © 2016 erickingxu. All rights reserved.
 //
-
+#import "MetalImageOrigin.h"
 #import "MetalImageCmdQueue.h"
 #import "MetalImageFilter.h"
 #import "MetalImageView.h"

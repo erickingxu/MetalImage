@@ -98,6 +98,8 @@
         
         [blitCommandEncoder generateMipmapsForTexture:outTexture];
         
+        
+        
         [blitCommandEncoder updateFence:fence];
         
         [blitCommandEncoder endEncoding];

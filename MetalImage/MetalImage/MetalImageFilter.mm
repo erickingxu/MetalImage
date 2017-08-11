@@ -67,6 +67,7 @@ static const simd::float4 imageVertices[] = {
     {
         return nil;
     }
+
     _threadGroupSize = MTLSizeMake(16, 16, 1);
     _depthPixelFormat           = pline->depthPixelFormat;
     _stencilPixelFormat         = pline->stencilPixelFormat;
@@ -169,6 +170,10 @@ static const simd::float4 imageVertices[] = {
             
             return NO;
         }
+        NSInteger w = _caclpipelineState.threadExecutionWidth;
+        NSInteger h = _caclpipelineState.maxTotalThreadsPerThreadgroup / w;
+        _threadGroupSize = MTLSizeMake(w, h, 1);
+        
     }
     
     
@@ -376,7 +381,9 @@ static const simd::float4 imageVertices[] = {
     //new output texture for next filter
     if (_threadGroupSize.width == 0 || _threadGroupSize.height == 0 || _threadGroupSize.depth == 0 )
     {
-        _threadGroupSize = MTLSizeMake(16, 16, 1);
+        NSInteger w = _caclpipelineState.threadExecutionWidth;
+        NSInteger h = _caclpipelineState.maxTotalThreadsPerThreadgroup / w;
+        _threadGroupSize = MTLSizeMake(w, h, 1);
     }
     //calculate compute kenel's width and height
     

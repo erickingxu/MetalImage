@@ -74,7 +74,7 @@
             
             [renderEncoder setFragmentTexture:firstInputTexture.texture atIndex:0];
             [renderEncoder setFragmentBuffer:_gammaBuffer offset:0 atIndex:0];
-            [renderEncoder setFragmentTexture:outputTexture.texture atIndex:1];
+
             [renderEncoder setRenderPipelineState:_renderpipelineState];
             
             // tell the render context we want to draw our primitives
@@ -87,6 +87,7 @@
     //end if
 }
 
+/*
 - (void)renderToTextureWithVertices:(const simd::float4 *)vertices textureCoordinates:(const simd::float2 *)textureCoordinates withAttachmentData:(Texture_FrameData*)pFrameData
 {
     if (!firstInputTexture)
@@ -127,5 +128,5 @@
     }
     
 }
-
+*/
 @end

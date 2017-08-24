@@ -145,6 +145,8 @@ unsigned short int16WithBytes(Byte* bytes)
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
     peline.computeFuncNameStr =  @"imgToneCurve";
+    peline.vertexFuncNameStr  = @"";
+    peline.fragmentFuncNameStr= @"";
     if (!(self = [super initWithMetalPipeline:&peline]))
     {
         return nil;

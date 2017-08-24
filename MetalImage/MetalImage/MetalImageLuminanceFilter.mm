@@ -24,6 +24,8 @@
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
     peline.computeFuncNameStr =  @"Luminance";
+    peline.vertexFuncNameStr  = @"";
+    peline.fragmentFuncNameStr= @"";
     if (!(self = [super initWithMetalPipeline:&peline]))
     {
         return nil;

@@ -12,7 +12,7 @@
 @interface ViewController ()
 {
     MetalImageVideoCamera* vc;
-    MetalImageOutput<MetalImageInput> *filter;
+    MetalImageOutput<MetalImageInput> *filter, *filter1;
     
 }
 @end
@@ -27,16 +27,17 @@
 
 -(void)startupVideo
 {
-    vc     = [[MetalImageVideoCamera alloc] init];
-//    filter    = [[MetalImageBeautyFilter alloc] init];
-//    filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
+    vc      = [[MetalImageVideoCamera alloc] init];
+    //filter  = [[MetalImageExposureFilter alloc] init];
+    filter1 = [[MetalImagePointSpirit alloc] init];
+    //filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
     NSURL *fileUrl = [[NSBundle mainBundle] URLForResource:@"Amaro" withExtension:@"acv"];
     filter = [[MetalImageToneCurveFilter alloc] initWithACVURL:fileUrl];
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = kMetalImageRotateLeft;
     [vc addTarget:filter];
-
-    [filter addTarget:imageView];
+    [filter addTarget:filter1];
+    [filter1 addTarget:imageView];
 
 }
 

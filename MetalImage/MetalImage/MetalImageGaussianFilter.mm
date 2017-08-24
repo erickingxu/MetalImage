@@ -26,6 +26,8 @@
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
     peline.computeFuncNameStr =  @"gaussian_BlurHorizontal";
+    peline.vertexFuncNameStr  = @"";
+    peline.fragmentFuncNameStr= @"";
     //  gaussian_BlurHorizontal";//gaussian_BlurHorizontal,gaussian_blur_2d
     if (!(self = [super initWithMetalPipeline:&peline]))
     {

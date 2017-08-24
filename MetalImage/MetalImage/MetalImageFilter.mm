@@ -83,9 +83,8 @@ static const simd::float4 imageVertices[] = {
         
         return nil;
     } // if
-    
     renderDepthStateDesc.depthCompareFunction = MTLCompareFunctionAlways;
-    renderDepthStateDesc.depthWriteEnabled    = YES;
+    renderDepthStateDesc.depthWriteEnabled    = NO;
     
     _depthStencilState = [_filterDevice newDepthStencilStateWithDescriptor:renderDepthStateDesc];
     
@@ -124,17 +123,20 @@ static const simd::float4 imageVertices[] = {
 - (BOOL) preparePipelineState:(METAL_PIPELINE_STATE*)filterPipelineState
 {
     // get the vertex function from the library
+    BOOL RET = YES;
     if (!_filterLibrary && _filterDevice)
     {
         NSError *liberr = nil;
         _filterLibrary = [_filterDevice newLibraryWithFile:@"imageQuad.metallib" error:&liberr];
         if (!_filterLibrary)
         {
-            return NO;
+            RET = NO;
         }
     }
+    if (!RET)
+        return RET;
     NSError *pError = nil;
-    if ([filterPipelineState->computeFuncNameStr isEqualToString:@""] && ![filterPipelineState->fragmentFuncNameStr isEqualToString:@""])
+    if (![filterPipelineState->vertexFuncNameStr isEqualToString:@""] && ![filterPipelineState->fragmentFuncNameStr isEqualToString:@""])
     {///just do render pipeline, no compute encoder...
         id <MTLFunction> vetexFunc = [_filterLibrary newFunctionWithName:filterPipelineState->vertexFuncNameStr];
         id <MTLFunction> fragFunc  = [_filterLibrary newFunctionWithName:filterPipelineState->fragmentFuncNameStr];
@@ -146,38 +148,53 @@ static const simd::float4 imageVertices[] = {
         renderplineStateDescriptor.vertexFunction               = vetexFunc;
         renderplineStateDescriptor.fragmentFunction             = fragFunc;
         
+        ////set alpha blending for special case
+        MTLRenderPipelineColorAttachmentDescriptor *attachmentDesc = renderplineStateDescriptor.colorAttachments[0];
+        
+        attachmentDesc.blendingEnabled = true;
+
+        attachmentDesc.rgbBlendOperation = MTLBlendOperationAdd;
+        attachmentDesc.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+        attachmentDesc.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        
+        attachmentDesc.alphaBlendOperation = MTLBlendOperationAdd;
+        attachmentDesc.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+        attachmentDesc.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        
         _renderpipelineState  = [_filterDevice newRenderPipelineStateWithDescriptor:renderplineStateDescriptor error:&pError];
         
         if (!_renderpipelineState)
         {
             NSLog(@">>ERROR: Failed create renderpipeline in base filter! error is :%@",pError);
-            return NO;
+            RET = NO;
         }
-        return YES;
+
     }
-    else
+
+    if (![filterPipelineState->computeFuncNameStr isEqualToString:@"" ])
     {
         id <MTLFunction> caculateFunc   = [_filterLibrary newFunctionWithName:filterPipelineState->computeFuncNameStr];
         if (!caculateFunc)
         {
-            return NO;
+            RET = NO;
         }
+        if(!RET)
+            return RET;
         _caclpipelineState   = [_filterDevice newComputePipelineStateWithFunction:caculateFunc error:&pError];
         
         if(!_caclpipelineState)
         {
             NSLog(@">> ERROR: Failed acquiring compute pipeline state descriptor: %@", pError);
             
-            return NO;
+            RET = NO;
         }
         NSInteger w = _caclpipelineState.threadExecutionWidth;
         NSInteger h = _caclpipelineState.maxTotalThreadsPerThreadgroup / w;
         _threadGroupSize = MTLSizeMake(w, h, 1);
-        
+    
     }
     
-    
-    return YES;
+    return RET;
 }
 
 + (const simd::float2 *)textureCoordinatesForRotation:(MetalImageRotationMode)rotationMode

@@ -1,69 +1,81 @@
 //
-//  imgFSharpen.metal
+//  imgEyeBig.metal
 //  MetalImage
 //
-//  Created by ericking on 8/8/2017.
+//  Created by ericking on 22/8/2017.
 //  Copyright © 2017 erickingxu. All rights reserved.
 //
 
 #include <metal_stdlib>
 using namespace metal;
 
-float2 oldPositionBeforeWraped(float2 txtCoord, float2 cntrPostionU, float2 cntrPostionX, float radius, float delta, float aspect)
+float2 pointsStretch(float2 textureCoord, float2 originPosition, float2 direction, float radius, float curve)
 {
-    float2 oldPostion = txtCoord;//for everyone first
-    float r = distance(txtCoord, cntrPostionU);
-    if(r < radius)
-    {
-        float2 dir   = normalize(cntrPostionX-cntrPostionU);
-        float dist  = pow(radius,2.0) - pow(r, 2.0);
-        float sigma = dist/(dist + pow( r-delta ,2.0));
-        oldPostion  = oldPostion - pow(sigma, 2.0)*delta*dir;//delta for accuracy wrap
-    }
-    return oldPostion;
+    float infect = distance(textureCoord, originPosition) / radius;
+    infect = clamp(1.0 - infect, 0.0, 1.0);
+    infect = pow(infect, curve);
+    return direction * infect;
 }
 
-/////faceBuf<float> [eyeL,eyeR, cntL0, cntR0, radius0, delta0 ,cntL1, cntR1, radius1, delta1, cntL2, cntR2, radius2, delta2, cntL3, cntR3, radius3, delta3]
+kernel void eyefSharpen(texture2d<float, access::read>  inTexture   [[ texture(0) ]],
+                       texture2d<float, access::write> outTexture  [[ texture(1) ]],
+                       constant float*                 faceBuf     [[buffer(0)]],
+                       uint2                           gid         [[ thread_position_in_grid ]])
 
-kernel void faceSharpen(texture2d<half, access::read>  inTexture   [[ texture(0) ]],
-                        texture2d<half, access::write> outTexture  [[ texture(1) ]],
-                        device float*                  faceBuf     [[buffer(0)]],
-                        uint2                          gid         [[ thread_position_in_grid ]])
 {
-    float eyeLx =  *faceBuf, eyeLy = *(faceBuf+1);
-    float eyeRx =  *(faceBuf+2), eyeRy = *(faceBuf+3);
-    faceBuf += 3;
-    float2 eyeL(eyeLx, eyeLy);
-    float2 eyeR(eyeRx, eyeRy);
+    float             eStreth = 1.0;
     
-    float2 leftContourPoints[4];
-    float2 rightContourPoints[4];
-    float  radius[4];
-    float  delta[4];
+    uint2 gid_new(gid.x, gid.y);
+    ///get data from faceBuf into loc
+    float2 eLpt  = float2(*faceBuf, *(faceBuf+1));
+    float2 eRpt  = float2(*(faceBuf+2), *(faceBuf+3));
+    float2 fCntPt  = float2(*(faceBuf+4), *(faceBuf+5));
     
-    for(int k = 0; k < 4; k++)
+    float2 vTexCoord = float2(float(gid.x) / float(inTexture.get_width()), float(gid.y)/float(inTexture.get_height()));
+    float4 outColor  = inTexture.read(gid_new);
+    
+    if ((fCntPt.x>0.03) && (fCntPt.y > 0.03))
     {
-        leftContourPoints[k].x =  *(faceBuf+ 5*k), leftContourPoints[k].y = *(faceBuf + 5*k + 1 );
-        rightContourPoints[k].x =  *(faceBuf + 5*k + 2), rightContourPoints[k].y = *(faceBuf + 5*k + 3);
-        radius[k] =  *(faceBuf + 5*k + 4), delta[k] = *(faceBuf + 5*k + 5);
+        float2 resultCoord = vTexCoord;
+        
+        float2 wh_scale = float2(0.5625, 1.0);
+        float2 curCoord = vTexCoord * wh_scale;
+        float weight = 1.0;
+        
+        //enlarge eyes
+        float eyeRadius = 0.4638;
+        
+        float aspect = 1.0;
+        float dist2eLpt =  distance(float2(aspect*curCoord.x, curCoord.y), float2(aspect*eLpt.x, eLpt.y));
+        if (dist2eLpt <= eyeRadius)
+        {
+            weight = dist2eLpt / eyeRadius;
+            weight = pow(weight, 0.15);
+            weight = clamp(weight, 0.001, 1.0);
+            weight = (weight - 1.0)*eStreth +1.0;
+            curCoord = eLpt + (curCoord - eLpt) * weight;
+            
+        }
+        
+        float dist2eRpt = distance(float2(aspect*curCoord.x, curCoord.y), float2(aspect*eRpt.x, eRpt.y));
+        if (dist2eRpt <= eyeRadius)
+        {
+            weight = dist2eRpt / eyeRadius;
+            weight = pow(weight, 0.2);
+            weight = clamp(weight, 0.0013, 1.0);
+            weight = (weight - 1.0)*eStreth +1.0;
+            curCoord = eRpt + (curCoord - eRpt) * weight;
+        }
+        
+        resultCoord = curCoord / wh_scale;
+        
+        gid_new = uint2(uint(resultCoord.x * inTexture.get_width()), uint(resultCoord.y * inTexture.get_height()) );
+        
+        outColor  = inTexture.read(gid_new);
+        //float4(1.0,0.4,0.8, 0.5);//
+        //outColor = float4(eLpt, eRpt);
     }
-    half tx = half(gid.x)/half(inTexture.get_width());
-    half ty = half(gid.y)/half(inTexture.get_height());
     
-    float face_width = distance(eyeL, eyeR);
-    float2 positionToTransformed(tx, ty);
-
-    float aspectRatio = inTexture.get_width() / inTexture.get_height();
-
-    for(int i = 0; i < 4; i++)
-    {
-        positionToTransformed = oldPositionBeforeWraped(positionToTransformed, leftContourPoints[i], rightContourPoints[i], radius[i], delta[i] * face_width, aspectRatio);
-        positionToTransformed = oldPositionBeforeWraped(positionToTransformed, rightContourPoints[i], leftContourPoints[i], radius[i], delta[i] * face_width, aspectRatio);
-    }
-    uint gid_x = positionToTransformed.x * inTexture.get_width();
-    uint gid_y = positionToTransformed.y * inTexture.get_height();
-    uint2 gid_new(gid_x, gid_y);
-    
-    half4 inColor  = half4(0.0, 1.0, 0.0, 1.0);//inTexture.read(gid_new);//
-    outTexture.write(inColor, gid);
+    outTexture.write(outColor, gid);
 }
+

@@ -11,15 +11,15 @@
 
 #import <AVFoundation/AVFoundation.h>
 //////////////////////////////////////Core texture data struct for CPU-Processing///////////////////////////////
-typedef struct _ModelHeadPose
+typedef struct _Model3DPose
 {
     float           viewMat[ 16 ];
     float           projectMat[ 16 ];
-} ModelPose;
+} Model3DPose;
 
 typedef struct _FaceFrameData
 {
-    float           facePoints[ 106 * 2 ];            /* [f0x, f0y, f1x, f1y, f2x, f2y, ...]. */
+    float           facePoints[ 48 * 2 ];            //some like as [x0,y0,x1,y1 ...]
     uint32_t        facePointsCount;
     bool            isMouthOpen;
     bool            eyeBlink;
@@ -27,7 +27,7 @@ typedef struct _FaceFrameData
     bool            isHeadPitch;
     bool            isBrowJump;
     float           openMouthIntensity;
-    ModelPose       headPose;
+    Model3DPose       headPose;
 } FaceFrameData;
 
 typedef struct _AttachmentDataArr
@@ -38,12 +38,12 @@ typedef struct _AttachmentDataArr
 
 typedef struct _Texture_FrameData
 {
-    uint8_t*        imageData;    /* [input] Image raw buffer, some filter may need this, most of the filter is set to NULL. */
-    uint32_t        width;               /* [input] width of image data. */
-    uint32_t        height;              /* [input] height of image data. */
-    uint32_t        widthStep;           /* [input] The number of bytes in per line of the image data. */
-    uint32_t        format;              /* [input] Format of input image data, One of the RGBA32, NV12, BGR24, BGRA32. */
-    AttachmentDataArr attachFrameDataArr; /* [input] [output] Face alignment data. */
+    uint8_t*        imageData;
+    uint32_t        width;
+    uint32_t        height;
+    uint32_t        widthStep;
+    uint32_t        format;
+    AttachmentDataArr attachFrameDataArr; //attach some cpu data for processing
     
 } Texture_FrameData;
 

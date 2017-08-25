@@ -34,7 +34,7 @@ static const unsigned length_pagealigned = (length/4096 +1)*4096;
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
     peline.orient             =  kMetalImageNoRotation;
     peline.sampleCount        =  1;
-    peline.computeFuncNameStr =  @"eyeSharpen";
+    peline.computeFuncNameStr =  @"eyefSharpen";
     peline.vertexFuncNameStr  =  @"pointSpiritVertex";
     peline.fragmentFuncNameStr=  @"roundSpiritFragment";
     
@@ -172,7 +172,7 @@ static const unsigned length_pagealigned = (length/4096 +1)*4096;
     simd::float2 rightEye ={0,0};
     simd::float2 nosePoint = {0,0} ;
     
-    if (106 == pointsCount)
+    if (48 == pointsCount)
     {
         leftEye = {GETPOINT_X(74)*whRatio, GETPOINT_Y(74)};
         rightEye = {GETPOINT_X(77)*whRatio, GETPOINT_Y(77)};

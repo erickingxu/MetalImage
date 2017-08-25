@@ -16,7 +16,9 @@ Today,I decided to share my works with a memorable date of birth of my daughter,
 
 ## Workflow 
 * 1).Some 3D interfaces will be added for easy using metal draw CG effects.
-* 2).Some face detections interface will be provided with this library, maybe need some days.
+* 2).Some face detections interface will be provided with this library, maybe need some days(almost work)
+     ![OriginImage](examples/JackMa.jpg)
+     ![SharpenImage](examples/fSharpen.PNG)
 * 3).Some optimizations will be updated.
 
 ## To-do list in future

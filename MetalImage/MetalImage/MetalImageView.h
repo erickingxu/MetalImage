@@ -5,7 +5,7 @@
 //  Created by erickingxu on 2/8/2016.
 //  Copyright © 2016 erickingxu. All rights reserved.
 //
-
+//  CAMetalLayer must be used by A7 Chip ,not support simulator
 #import <QuartzCore/CAMetalLayer.h>
 #import <Metal/Metal.h>
 #import <UIKit/UIKit.h>

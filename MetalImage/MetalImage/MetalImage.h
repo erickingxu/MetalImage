@@ -29,4 +29,4 @@
 #import "MetalImageCropFilter.h"
 #import "MetalImageToneCurveFilter.h"
 #import "MetalImageFaceShapenFilter.h"
-
+#import "MetalImageSketchFilter.h"

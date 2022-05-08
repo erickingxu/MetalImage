@@ -98,7 +98,7 @@ static const simd::float4 points[3] = {
         
         if (outputTexture ==  nil)
         {
-            outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
+            outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height withFormat:MTLPixelFormatRGBA8Unorm];
             [outputTexture loadTextureIntoDevice:self.filterDevice];
         }
         

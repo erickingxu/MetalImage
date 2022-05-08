@@ -100,15 +100,18 @@
 
 -(void)addTarget:(id<MetalImageInput>)newTarget  atTextureIndex: (NSInteger)textureLoc
 {
-    if ([targets containsObject:newTarget])
+    if ([targets containsObject:newTarget] && [targetTextureIndices containsObject:[NSNumber numberWithInteger:textureLoc]])
     {
         return;
     }
     ///////////////////do in a self queue///////////////////////
+    if(NO == [targets containsObject:newTarget]){
+        [targets addObject:newTarget];
+    }
     [self setInputTextureForTarget:newTarget atIndex:textureLoc];
-    [targets addObject:newTarget];
     [targetTextureIndices addObject:[NSNumber numberWithInteger:textureLoc]];
     ////////////////////////////////////////////////////////////
+    NSLog(@"****************New filter/target add in filter chain now!!!******* %@ ********************", newTarget.class);
 }
 
 -(void)removeTarget:(id <MetalImageInput>)targetToRemove

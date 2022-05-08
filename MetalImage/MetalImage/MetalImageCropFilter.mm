@@ -93,7 +93,7 @@
     usingSize.width = firstInputTexture.width*_cropRegion.size.width;
     usingSize.height = firstInputTexture.height*_cropRegion.size.height;
     //new output texture for next filter
-    outputTexture  = [[MetalImageTexture alloc] initWithWidth: usingSize.width withHeight: usingSize.height];
+    outputTexture  = [[MetalImageTexture alloc] initWithWidth: usingSize.width withHeight: usingSize.height withFormat:MTLPixelFormatBGRA8Unorm];
     
     [outputTexture loadTextureIntoDevice:self.filterDevice];
     

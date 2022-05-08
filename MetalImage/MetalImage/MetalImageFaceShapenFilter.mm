@@ -122,7 +122,7 @@ static const unsigned length_pagealigned = (length/4096 +1)*4096;
         
         if (outputTexture ==  nil)
         {
-            outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
+            outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height withFormat:MTLPixelFormatRGBA8Unorm];
             [outputTexture loadTextureIntoDevice: self.filterDevice];
            
         }

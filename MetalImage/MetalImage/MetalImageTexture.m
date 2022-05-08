@@ -35,7 +35,7 @@ typedef _Nullable id<MTLTexture> (^FinalizeCompletion)(id<MTLHeap> heap);
     return self;
 }
 
--(id)initWithWidth:(uint32_t)imgWidth withHeight:(uint32_t)imgHeight;
+-(id)initWithWidth:(uint32_t)imgWidth withHeight:(uint32_t)imgHeight withFormat:(uint32_t)pfmt
 {
     if (!(self = [super init]))
     {
@@ -47,7 +47,7 @@ typedef _Nullable id<MTLTexture> (^FinalizeCompletion)(id<MTLHeap> heap);
     _width = imgWidth;
     _height = imgHeight;
     _depth = 1;
-    _pixelFormat = MTLPixelFormatBGRA8Unorm;
+    _pixelFormat = pfmt;
     _target   = MTLTextureType2D;
     
     _texture   = nil;
@@ -143,7 +143,7 @@ typedef _Nullable id<MTLTexture> (^FinalizeCompletion)(id<MTLHeap> heap);
     if (! self.filePathStr && self.width > 0 && self.height > 0 )
     {
         MTLTextureDescriptor *txtDescrp = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:self.pixelFormat width:self.width height: self.height mipmapped:NO];
-        
+        txtDescrp.usage = MTLTextureUsageShaderRead|MTLTextureUsageShaderWrite|MTLTextureUsageRenderTarget;
         self.target  = txtDescrp.textureType;//similar to Texture_2D
         self.texture = [device newTextureWithDescriptor:txtDescrp];//load txture into device for fbo
         return YES;
@@ -259,7 +259,7 @@ typedef _Nullable id<MTLTexture> (^FinalizeCompletion)(id<MTLHeap> heap);
     
     CGContextDrawImage(pContext, bounds, self.img.CGImage);
     
-    __block MTLTextureDescriptor *pTexDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:width height:height mipmapped:NO];
+    __block MTLTextureDescriptor *pTexDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm width:width height:height mipmapped:NO];
     
     if(!pTexDesc)
     {

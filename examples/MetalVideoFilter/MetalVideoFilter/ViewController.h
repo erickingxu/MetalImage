@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController{
+    IBOutlet UISegmentedControl *algoChoice;
+}
+@property(nonatomic,retain)UISegmentedControl *algoChoice;
 
-
+-(IBAction) segmentedControlIndexChanged:(id)sender;
 @end
 

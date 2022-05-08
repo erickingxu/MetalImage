@@ -28,6 +28,7 @@ METAL_PIPELINE_STATE;
 @interface MetalImageFilter : MetalImageOutput<MetalImageInput>
 {
     MetalImageTexture*              firstInputTexture;
+    MetalImageTexture*              secondInputTexture;
     MetalImageCmdQueue*             filterCommandQueue;
     id <MTLComputePipelineState>    _caclpipelineState;
     
@@ -58,6 +59,7 @@ METAL_PIPELINE_STATE;
 
 -(void)caculateWithCommandBuffer:(id <MTLCommandBuffer>)commandBuffer;
 
+-(id)getComputePipeLineFrom:(METAL_PIPELINE_STATE*)filterPipeLine;
 ///attachment is real metal txture
 -(void)setInputAttachment:(id<MTLTexture>)texture  withWidth: (int)w withHeight:(int)h;
 -(id<MTLTexture>)outputAttachment;

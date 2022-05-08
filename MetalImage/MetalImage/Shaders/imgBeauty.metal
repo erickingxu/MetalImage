@@ -23,7 +23,7 @@ kernel void gaussian_HighPassHorizontal(texture2d<float, access::read>  inTextur
         uint2   textureIndex(gid.x + (i - radius)*radius, gid.y);
         float4  color = inTexture.read(textureIndex).rgba;
         int   xindx = abs(i - radius);
-        float  weight = weights.read(xindx).x;
+        float  weight = 0.5;//weights.read(xindx).x;
         xColor  += float4(weight)*color;
     }
     outTexture.write(float4(xColor.rgb, 1), gid);

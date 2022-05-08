@@ -109,12 +109,12 @@
         /////////////////////////////////
         static dispatch_once_t pred;
         dispatch_once(&pred, ^{
-            GaussianOutputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height];
+            GaussianOutputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height withFormat:MTLPixelFormatRGBA8Unorm];
             [GaussianOutputTexture loadTextureIntoDevice:self.filterDevice];
-            HighPassOutputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height];
+            HighPassOutputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height withFormat:MTLPixelFormatRGBA8Unorm];
             [HighPassOutputTexture loadTextureIntoDevice:self.filterDevice];
             
-            HighPassBlurTexture    =[[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height];
+            HighPassBlurTexture    =[[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height withFormat:MTLPixelFormatRGBA8Unorm];
             [HighPassBlurTexture loadTextureIntoDevice:self.filterDevice];
         });
         

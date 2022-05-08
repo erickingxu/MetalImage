@@ -156,7 +156,7 @@
         NSLog(@">> ERROR: Couldnt create texture from image");
         assert(0);
     }
-    _videoTexture = [[MetalImageTexture alloc] initWithWidth:(uint32_t)width withHeight:(uint32_t)height];
+    _videoTexture = [[MetalImageTexture alloc] initWithWidth:(uint32_t)width withHeight:(uint32_t)height withFormat:MTLPixelFormatBGRA8Unorm];
     _videoTexture.texture = CVMetalTextureGetTexture(textureRef);
     
     if (!_videoTexture)

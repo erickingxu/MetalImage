@@ -50,7 +50,7 @@ kernel void gaussian_BlurHorizontal(texture2d<float, access::read>  inTexture [[
         uint2   textureIndex(gid.x + (i - radius)*radius, gid.y);
         float4  color = inTexture.read(textureIndex).rgba;
         int   xindx = abs(i - radius);
-        float  weight = weights.read(xindx).x;
+        float  weight = 0.5;//weights.read(xindx).x;
         xColor  += float4(weight)*color;
     }
     //xColor = xColor/(float)size;

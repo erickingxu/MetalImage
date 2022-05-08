@@ -27,7 +27,7 @@
 
 -(id)initWithResource:(NSString*)fileStr;
 -(id)initWithImage:(CGImageRef)img andWithMetalDevice:(id <MTLDevice>)device;
--(id)initWithWidth:(uint32_t)imgWidth withHeight:(uint32_t)imgHeight;
+-(id)initWithWidth:(uint32_t)imgWidth withHeight:(uint32_t)imgHeight withFormat:(uint32_t)pfmt;
 -(BOOL)loadTextureIntoDevice:(id <MTLDevice>)device;
 
 ////////Heap and sub-allocate//////

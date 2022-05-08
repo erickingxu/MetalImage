@@ -12,33 +12,52 @@
 @interface ViewController ()
 {
     MetalImageVideoCamera* vc;
-    MetalImageOutput<MetalImageInput> *filter, *filter1;
-    
+    MetalImageOutput<MetalImageInput> *filter;
+    int algo_state;
 }
 @end
 
 @implementation ViewController
+@synthesize algoChoice;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    algo_state = 1;
     // Do any additional setup after loading the view, typically from a nib.
     [self startupVideo];
 }
-
+-(IBAction) segmentedControlIndexChanged:(id)sender{
+   NSInteger algo_st = [(UISegmentedControl*)sender selectedSegmentIndex];
+    algo_state = algo_st;
+    MetalImageView*  imageView = (MetalImageView*)self.view;
+    imageView.inputRotation  = kMetalImageRotateLeft;
+    if (algo_state == 0) {
+        [vc addTarget:imageView];
+    }
+    else if (algo_state == 1){
+        [vc addTarget:filter];
+        [filter addTarget:imageView];
+    }
+}
 -(void)startupVideo
 {
     vc      = [[MetalImageVideoCamera alloc] init];
-    filter  = [[MetalImageSketchFilter alloc] init];
-    filter1 = [[MetalImagePointSpirit alloc] init];
-    //filter = [[MetalImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0.125, 0.75, 0.75)];
-//    NSURL *fileUrl = [[NSBundle mainBundle] URLForResource:@"Amaro" withExtension:@"acv"];
-//    filter = [[MetalImageToneCurveFilter alloc] initWithACVURL:fileUrl];
+    if (@available(iOS 11.0, *)) {
+        filter  = [[MetalImageGammaFilter alloc] init];
+    } else {
+        // Fallback on earlier versions
+        NSLog(@"....xxxx....");
+    }
     MetalImageView*  imageView = (MetalImageView*)self.view;
     imageView.inputRotation  = kMetalImageRotateLeft;
-    [vc addTarget:filter];
-    [filter addTarget:filter1];
-    [filter1 addTarget:imageView];
-
+    if (algo_state == 0) {
+        [vc addTarget:imageView];
+    }
+    else if (algo_state == 1){
+        [vc addTarget:filter];
+        [filter addTarget:imageView];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -17,4 +17,5 @@
 {
         MetalImageRotationMode                   orient;
 }
+-(id)initWithVideoType:(int)video_type;
 @end

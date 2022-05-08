@@ -10,91 +10,119 @@
 #import <Foundation/Foundation.h>
 #include <sys/mman.h>
 
-@implementation MetalImageMpsCnn
+#include "MetalImageMpsCnn.h"
+
+@implementation MPTensor
 {
-    BOOL _padding;
-    uint stridePixelsX;
-    uint stridePixelsY;
-    uint kernelWidth;
-    uint kernelHeight;
-    
+    int data_num;
+    int components_num;
+    int slice_ptr_offset;
+    int row_bytes_num;
+    int slices_per_batch;
+    int slices_num;
+    MTLRegion  gpu_data_region;
 }
 
--(id)initWithKernel:(uint)kWidth  kernelHeight: (uint)kHeight  inputFeatureChannels: (uint)iFeatureChannels
-outputFeatureChannels:(uint)oFeatureChannels
-       neuronFilter: (MPSCNNNeuron*)spurFilter
-             device: (id<MTLDevice>)device
-         kernelName: (NSString*)kName
-        inDirectory: (NSString*)inDir
-            padding: (BOOL)pad
-            strideX: (uint)strX
-            strideY: (uint)strY
-destinationFeatureChannelOffset: (uint)destFeatureChannelOffset
-           groupNum: (uint)gNum
-{
-    _padding = pad;
-    stridePixelsX = strX;
-    stridePixelsY = strY;
-    kernelWidth   = kWidth;
-    kernelHeight  = kHeight;
-    int sizeBias = oFeatureChannels * sizeof(float);
-    int sizeWeights = iFeatureChannels * kernelHeight * kernelWidth * oFeatureChannels * sizeof(float);
-    
-    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Ps" ofType:@"bundle"];
-    NSBundle *resBundle = [NSBundle bundleWithPath:bundlePath];
-    
-    NSString* wtPath = [[NSString alloc] initWithFormat:@"%@/%@%@_weight",inDir,inDir,kName];
-    NSString* bsPath = [[NSString alloc] initWithFormat:@"%@/%@%@_bias",inDir,inDir,kName];
-    NSString* weightStr = [resBundle pathForResource:wtPath ofType:@".dat" inDirectory:@"prisma"];
-    NSString* biasStr = [resBundle pathForResource:bsPath ofType:@".dat" inDirectory:@"prisma"];
-    int fd_w = open([weightStr UTF8String], O_RDONLY, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-    int fd_b = open([biasStr UTF8String],  O_RDONLY, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-    assert(fd_w != -1);
-    assert(fd_b != -1);
-    void* hdrW = mmap(NULL, sizeWeights, PROT_READ, MAP_FILE | MAP_SHARED, fd_w, 0);
-    void* hdrB = mmap(NULL, sizeBias, PROT_READ, MAP_FILE | MAP_SHARED, fd_b, 0);
-    
-    // create appropriate convolution descriptor with appropriate stride
-    MPSCNNConvolutionDescriptor *cnndescr = [MPSCNNConvolutionDescriptor cnnConvolutionDescriptorWithKernelWidth:kernelWidth kernelHeight:kernelHeight inputFeatureChannels:iFeatureChannels outputFeatureChannels:oFeatureChannels neuronFilter:spurFilter];
-    cnndescr.strideInPixelsX = strX;
-    cnndescr.strideInPixelsY = strY;
-    assert(gNum > 0);// "group size must be >= 1"
-    cnndescr.groups = gNum;
-    
-    if(self = [super initWithDevice:device convolutionDescriptor:cnndescr kernelWeights:(float*)hdrW biasTerms:(float *)hdrB flags:MPSCNNConvolutionFlagsNone])
-    {
-        self.destinationFeatureChannelOffset = destFeatureChannelOffset;
+-(void)syncTensorToGPU:(id<MTLDevice>)mps_device{
+    if (mps_device && _cpu_data) {
+        if (nil == _gpu_data) {
+            _gpu_data = [[MPSImage alloc] initWithDevice:mps_device imageDescriptor:[MPSImageDescriptor imageDescriptorWithChannelFormat:MPSImageFeatureChannelFormatFloat16 width:_W height:_H featureChannels:_C numberOfImages:_N usage:MTLTextureUsageShaderRead|MTLTextureUsageShaderWrite]];
+            gpu_data_region = MTLRegionMake3D(0, 0, 0, _W, _H, 1);
+        }
+        float16_t *tmp = (float16_t*)calloc(slice_ptr_offset, sizeof(float16_t));
+        for (int s=0; s<slices_num; s++) {
+            float16_t* ptr = _cpu_data + s*slice_ptr_offset;
+            int nnum = 1;//std::min( _C, components_num);
+            for (int c = 0; c<nnum; c++) {
+                for (int y=0; y<_H; y++) {
+                    for (int x=0; x<_W; x++) {
+                        tmp[components_num*(y*_W+x) + c] = *ptr++;
+                    }
+                }
+            }
+            [_gpu_data.texture replaceRegion:gpu_data_region mipmapLevel:0 slice:s withBytes:tmp bytesPerRow:row_bytes_num bytesPerImage:0];
+        }
+        free(tmp);
     }
-    close(fd_w);
-    close(fd_b);
-    return self;
+    else{
+        NSAssert(false, @"no cpu data or right gpu device for sync tensor!!!");
+    }
 }
 
--(void)encodeToCommandBuffer: (id<MTLCommandBuffer>)cmdbuffer sourceImage: (MPSImage*)src destinationImage: (MPSImage*)dst
-{
-    MPSOffset mpsoffset;
-    
-    if (_padding)
-    {
-        uint pad_along_height = (uint)((dst.height - 1)*stridePixelsY + kernelHeight - src.height);
-        uint pad_along_width  = (uint)((dst.width - 1)*stridePixelsX + kernelWidth - src.width);
-        uint pad_top          = pad_along_height/2;
-        uint pad_left         = pad_along_width/2;
-        mpsoffset.x = kernelWidth/2 - pad_left;
-        mpsoffset.y = kernelHeight/2 - pad_top;
-        mpsoffset.z = 0;
-        
+-(void)syncTensorToCPU{
+    if (_gpu_data) {
+        if (!_cpu_data) {
+            _cpu_data = (float16_t*) calloc(data_num, sizeof(float16_t));
+        }
+        float16_t *tmp = (float16_t*)calloc(slice_ptr_offset, sizeof(float16_t));
+        for (int s=0; s<slices_num; s++) {
+            [_gpu_data.texture getBytes:tmp bytesPerRow:row_bytes_num bytesPerImage:0 fromRegion:gpu_data_region mipmapLevel:0 slice:s];
+            float16_t* cpu_ptr = _cpu_data +s*slice_ptr_offset;
+            int cnt = 0;
+            for (int elmt = 0; elmt < components_num; elmt++) {
+                int chnl = s*components_num+ elmt;
+                if (chnl < _C) {
+                    for (int y = 0; y<_H; y++) {
+                        for (int x=0; x<_W; x++) {
+                            cpu_ptr[cnt++] = tmp[components_num*(y*_W + x) + elmt];
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }//elements for loop end
+        }//slice forloop end
+        free(tmp);
+    }else{
+        NSAssert(false, @"no gpu data for export data ,please check it !");
     }
-    else
-    {
-        mpsoffset.x = kernelWidth/2;
-        mpsoffset.y = kernelHeight/2;
-        mpsoffset.z = 0;
-        
-        
-    }
-    self.offset = mpsoffset;
-    [super encodeToCommandBuffer:cmdbuffer sourceImage:src destinationImage:dst];
 }
 
+- (id)initWithWeight:(float*)weights
+                bias:(float*)bias
+                desc:(MPSCNNConvolutionDescriptor*)desc {
+    if(self = [super init]){
+   
+        [self setDesc_:desc];
+        [self setWeights_:weights];
+        [self setBias_:bias];
+        return self;
+    }
+    return Nil;
+}
+- (float*)biasTerms {
+  return self.bias_;
+}
+-(void*)weights{
+    return  self.weights_;
+}
+- (MPSDataType)dataType {
+  return MPSDataTypeFloat32;
+}
+- (MPSCNNConvolutionDescriptor*)descriptor {
+  return self.desc_;
+}
+- (NSString*)label {
+  return Nil;
+}
+- (BOOL)load {
+  return true;
+}
+- (float*)lookupTableForUInt8Kernel {
+  return NULL;
+}
+- (void)purge {
+  return;
+}
+- (vector_float2*)rangesForUInt8Kernel {
+  return NULL;
+}
+
+- (id)copyWithZone:(NSZone*)zone {
+  MPTensor* newDataSource = [[self class] allocWithZone:zone];
+  newDataSource.weights_ = self.weights_;
+  newDataSource.bias_ = self.bias_;
+  newDataSource.desc_ = self.desc_;
+  return newDataSource;
+}
 @end

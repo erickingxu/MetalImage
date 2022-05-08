@@ -197,6 +197,47 @@ static const simd::float4 imageVertices[] = {
     return RET;
 }
 
+-(id)getComputePipeLineFrom:(METAL_PIPELINE_STATE*)filterPipelineState{
+    // get the vertex function from the library
+    BOOL RET = YES;
+    if (!_filterLibrary && _filterDevice)
+    {
+        NSError *liberr = nil;
+        _filterLibrary = [_filterDevice newLibraryWithFile:@"imageQuad.metallib" error:&liberr];
+        if (!_filterLibrary)
+        {
+            RET = NO;
+        }
+    }
+    if (!RET)
+        return Nil;
+    NSError *pError = nil;
+    if (![filterPipelineState->computeFuncNameStr isEqualToString:@"" ])
+    {
+        id <MTLFunction> caculateFunc   = [_filterLibrary newFunctionWithName:filterPipelineState->computeFuncNameStr];
+        if (!caculateFunc)
+        {
+            RET = NO;
+        }
+        if(!RET)
+            return Nil;
+        id <MTLComputePipelineState> _cplineState   = [_filterDevice newComputePipelineStateWithFunction:caculateFunc error:&pError];
+        
+        if(!_cplineState)
+        {
+            NSLog(@">> ERROR: Failed acquiring compute pipeline state descriptor: %@", pError);
+            
+            RET = NO;
+        }
+        NSInteger w = _cplineState.threadExecutionWidth;
+        NSInteger h = _cplineState.maxTotalThreadsPerThreadgroup / w;
+        _threadGroupSize = MTLSizeMake(w, h, 1);
+        return _cplineState;
+    }
+    
+    return Nil;
+}
+
 + (const simd::float2 *)textureCoordinatesForRotation:(MetalImageRotationMode)rotationMode
 {
     static const simd::float2 noRotationTextureCoordinates[] = {
@@ -320,6 +361,7 @@ static const simd::float4 imageVertices[] = {
     colorAttachment.loadAction      = MTLLoadActionClear;
     colorAttachment.clearColor      = MTLClearColorMake(0.0, 0.0, 1.0, 0.5);//black
     colorAttachment.storeAction     = MTLStoreActionStore;
+    //colorAttachment usage is MTLTextureUsageRenderTarget;
     //using default depth and stencil dscrptor...
     
     
@@ -330,19 +372,20 @@ static const simd::float4 imageVertices[] = {
 {
     if ( !firstInputTexture)
     {
-        firstInputTexture = [[MetalImageTexture alloc] initWithWidth:w withHeight:h];
+        firstInputTexture = [[MetalImageTexture alloc] initWithWidth:w withHeight:h withFormat:MTLPixelFormatBGRA8Unorm];
         [firstInputTexture loadTextureIntoDevice:_filterDevice];
     }
 
     firstInputTexture.texture = texture;
     
 }
+\
 
 -(id<MTLTexture>)outputAttachment
 {
     if (!outputTexture)
     {
-        outputTexture =  [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height];
+        outputTexture =  [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height withFormat:MTLPixelFormatBGRA8Unorm];
     }
     return  outputTexture.texture;
     
@@ -413,7 +456,7 @@ static const simd::float4 imageVertices[] = {
         
         if (outputTexture ==  nil)
         {
-            outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height];
+            outputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight: firstInputTexture.height withFormat:MTLPixelFormatBGRA8Unorm];
             [outputTexture loadTextureIntoDevice:_filterDevice];
         }
         
@@ -461,8 +504,13 @@ static const simd::float4 imageVertices[] = {
 
 -(void)setInputTexture:(MetalImageTexture *)newInputTexture atIndex:(NSInteger)textureIndex
 {
-    firstInputTexture  = newInputTexture;//last filter's output texture
+    if (!firstInputTexture) {
+        firstInputTexture  = newInputTexture;//last filter's output texture
+    }else{
+        secondInputTexture = newInputTexture;
+    }
 }
+
 -(CGSize)inputFrameSize
 {
     CGSize sz = CGSizeMake(0, 0);

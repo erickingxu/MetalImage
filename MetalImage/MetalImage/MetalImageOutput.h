@@ -14,6 +14,7 @@
 @interface MetalImageOutput : NSObject
 {
     MetalImageTexture*      outputTexture;
+    MetalImageTexture*      outputTexture_attched;
     NSMutableArray*         targets;
     NSMutableArray*         targetTextureIndices;
     id <MTLCommandBuffer>   sharedcommandBuffer;

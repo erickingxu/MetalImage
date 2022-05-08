@@ -336,9 +336,9 @@ static const simd::float4 imageVertices[] = {
             
             desc.textureType = (_sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
             desc.sampleCount = _sampleCount;
-            
+            desc.usage = MTLTextureUsageRenderTarget;
             _depthTexture = [_device newTextureWithDescriptor: desc];
-            
+          
             MTLRenderPassDepthAttachmentDescriptor *depthAttachment = renderPassDescriptor.depthAttachment;
             depthAttachment.texture = _depthTexture;
             depthAttachment.loadAction = MTLLoadActionClear;
@@ -437,7 +437,6 @@ static const simd::float4 imageVertices[] = {
     __block dispatch_semaphore_t dispatchSemaphore = [MetalImageCmdQueue getSemaphore];
     
     [sharedRenderCommandBuffer addCompletedHandler:^(id <MTLCommandBuffer> cmdb){
-        NSLog(@"****************fresh another commderbuffer for display!!!********************");
         dispatch_semaphore_signal(dispatchSemaphore);
     }];
     

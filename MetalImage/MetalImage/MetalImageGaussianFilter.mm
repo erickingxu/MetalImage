@@ -167,7 +167,7 @@
         /////////////////////////////////
         static dispatch_once_t pred;
         dispatch_once(&pred, ^{
-            TempoutputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height];
+            TempoutputTexture  = [[MetalImageTexture alloc] initWithWidth:firstInputTexture.width withHeight:firstInputTexture.height withFormat:MTLPixelFormatBGRA8Unorm];
             [TempoutputTexture loadTextureIntoDevice:self.filterDevice];
             
         });

@@ -19,12 +19,12 @@
     
     id <MTLDevice>                  videoDevice;
     CVMetalTextureCacheRef          videoTextureCache;
-    
+    BOOL                             _isYUVVideo;
     int                             videoWidth;
     int                             videoHeight;
     MetalImageCmdQueue*             videoCommandQueue;
     MetalImageRotationMode          inputRotation;
-    
+    id<MTLTexture>                  _videoTexture[2];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,22 @@
     videoWidth =  videoHeight = 0;
     videoDevice = [MetalImageCmdQueue getGlobalDevice];
     videoTextureCache = nil;
-  
+    _isYUVVideo = NO;
+    [self setupVideo];
+    
+    return self;
+}
+
+-(id)initWithVideoType:(int)video_type
+{
+    if (!(self = [super init]))
+    {
+        return nil;
+    }
+    videoWidth =  videoHeight = 0;
+    videoDevice = [MetalImageCmdQueue getGlobalDevice];
+    videoTextureCache = nil;
+    _isYUVVideo = (video_type==2)? YES:NO;
     [self setupVideo];
     
     return self;
@@ -61,12 +76,12 @@
         assert(0);
     }
     [_captureSession beginConfiguration];
-    [_captureSession setSessionPreset:AVCaptureSessionPresetHigh];
+    [_captureSession setSessionPreset:AVCaptureSessionPreset1280x720];
     AVCaptureDevice *videoCaptureDevice  = nil;
     NSArray* deviceArr = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for (AVCaptureDevice* device  in deviceArr)
     {
-        if ([device position] == AVCaptureDevicePositionFront)
+        if ([device position] == AVCaptureDevicePositionBack)
         {
             videoCaptureDevice  = device;
         }
@@ -93,9 +108,8 @@
     ///create video output for process image
     AVCaptureVideoDataOutput * dataOutput = [[AVCaptureVideoDataOutput alloc] init];
     [dataOutput setAlwaysDiscardsLateVideoFrames:YES];
-    
-    // Set the color space.
-    [dataOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA]
+        // Set the color space.
+    [dataOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:(_isYUVVideo ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange : kCVPixelFormatType_32BGRA)]
                                                              forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
     
     // Set dispatch to be on the main thread to create the texture in memory and allow Metal to use it for rendering
@@ -108,38 +122,56 @@
     [_captureSession startRunning];
 }
 
-///samplebuffer delegate func
+
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
-    CVReturn error;
+    CVReturn err;
     
-    CVImageBufferRef sourceImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    size_t width = CVPixelBufferGetWidth(sourceImageBuffer);
-    size_t height = CVPixelBufferGetHeight(sourceImageBuffer);
-   
-    CVMetalTextureRef textureRef;
-    error = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, videoTextureCache, sourceImageBuffer, NULL, MTLPixelFormatBGRA8Unorm, width, height, 0, &textureRef);
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    float y_width = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0);
+    float y_height = CVPixelBufferGetHeightOfPlane(pixelBuffer, 0);
     
-    if (error)
+    CVMetalTextureRef y_texture , uv_texture;
+    if (_isYUVVideo) {
+        err = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, videoTextureCache, pixelBuffer, nil, MTLPixelFormatR8Unorm, y_width, y_height, 0, &y_texture);
+        
+        float uv_width = CVPixelBufferGetWidthOfPlane(pixelBuffer, 1);
+        float uv_height = CVPixelBufferGetHeightOfPlane(pixelBuffer, 1);
+        err = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, videoTextureCache, pixelBuffer, nil, MTLPixelFormatRG8Unorm, uv_width, uv_height, 1, &uv_texture);
+     
+    }else{
+        err = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, videoTextureCache, pixelBuffer, NULL, MTLPixelFormatBGRA8Unorm, y_width, y_height, 0, &y_texture);
+    }
+
+    if (err)
     {
         NSLog(@">> ERROR: Couldnt create texture from image");
         assert(0);
     }
-    outputTexture = [[MetalImageTexture alloc] initWithWidth:(uint32_t)width withHeight:(uint32_t)height];
-    outputTexture.texture = CVMetalTextureGetTexture(textureRef);
+    if (outputTexture.width != y_width || outputTexture.height!= y_height) {
+        if (_isYUVVideo) {
+            outputTexture = [[MetalImageTexture alloc] initWithWidth:(uint32_t)y_width withHeight:(uint32_t)y_height withFormat:MTLPixelFormatR8Unorm];
+        }else{
+            outputTexture = [[MetalImageTexture alloc] initWithWidth:(uint32_t)y_width withHeight:(uint32_t)y_height withFormat:MTLPixelFormatBGRA8Unorm];
+        }
+    }
+    if (outputTexture_attched.width != y_width || outputTexture_attched.height!= y_height) {
+        if (_isYUVVideo) {
+            outputTexture_attched = [[MetalImageTexture alloc] initWithWidth:(uint32_t)y_width withHeight:(uint32_t)y_height withFormat:MTLPixelFormatRG8Unorm];
+            [targetTextureIndices addObject:[NSNumber numberWithInteger:1] ];
+            outputTexture_attched.texture = CVMetalTextureGetTexture(uv_texture);
+            CVBufferRelease(uv_texture);
+        }
+    }
+    outputTexture.texture = CVMetalTextureGetTexture(y_texture);
+    
     CMTime currentTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     [self fireOn];
-    
-    if (!outputTexture)
-    {
-        NSLog(@">> ERROR: Couldn't get texture from texture ref");
-        assert(0);
-    }
     [self videoSampleBufferProcessing:currentTime];
-    
-    CVBufferRelease(textureRef);
-    
+    CVBufferRelease(y_texture);
 }
+
 
 -(void)videoSampleBufferProcessing:(CMTime)frameTime
 {
@@ -148,8 +180,10 @@
         NSInteger indexOfObject = [targets indexOfObject:currentTarget];
         NSInteger textureIndexOfTarget = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
         
-        // [currentTarget setInputSize:pixelSize atIndex:textureIndexOfTarget];
         [currentTarget setInputTexture:outputTexture atIndex:textureIndexOfTarget];
+        if ([targetTextureIndices containsObject:[NSNumber numberWithInteger:1]]) {
+            [currentTarget setInputTexture:outputTexture_attched atIndex:1];
+        }
         [currentTarget setInputCommandBuffer:sharedcommandBuffer atIndex:textureIndexOfTarget];//update every frame
         [currentTarget newFrameReadyAtTime:frameTime atIndex:textureIndexOfTarget withFrameData:nil];
     }

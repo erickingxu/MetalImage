@@ -22,7 +22,7 @@
     peline.depthPixelFormat   =  MTLPixelFormatDepth32Float;
     peline.stencilPixelFormat =  MTLPixelFormatInvalid;
     peline.orient             =  kMetalImageNoRotation;
-    peline.sampleCount        =  1;
+    peline.sampleCount        =  4;
     peline.vertexFuncNameStr  =  @"gammaVertex";
     peline.fragmentFuncNameStr=  @"gammaFragment";
     peline.computeFuncNameStr =  @"";
@@ -40,7 +40,7 @@
     _gammaBuffer  = [self.filterDevice newBufferWithLength:1024 options:0];
     _gammaBuffer.label = [NSString stringWithFormat:@"ConstUniformBuffer"];
     float* gammaPtr = (float*)[_gammaBuffer contents];
-    *gammaPtr = 2.0;
+    *gammaPtr = 0.50;
     
     return self;
 }

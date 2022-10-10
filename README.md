@@ -20,12 +20,13 @@ Today,I decided to share my works with a memorable date of birth of my daughter,
      ![OriginImage](examples/JackMa.jpg)
      ![SharpenImage](examples/fSharpen.PNG)
 * 3).Some optimizations will be updated.
+* 4).MASS for metal display, 4xsample ,8xsample.[completed]
 
 ## To-do list in future
 
 * add 3d model viewer and loader 
 * update other beauty algorithm
-
+* 3d physic engine is on the way 
 ## License ##
 
 MIT-style, with the full license available with the framework in License.txt.

@@ -158,7 +158,7 @@
     }
     if (outputTexture_attched.width != y_width || outputTexture_attched.height!= y_height) {
         if (_isYUVVideo) {
-            outputTexture_attched = [[MetalImageTexture alloc] initWithWidth:(uint32_t)y_width withHeight:(uint32_t)y_height withFormat:MTLPixelFormatRG8Unorm];
+            outputTexture_attched = [[MetalImageTexture alloc] initWithWidth:(uint32_t)y_width/2 withHeight:(uint32_t)y_height/2 withFormat:MTLPixelFormatRG8Unorm];
             [targetTextureIndices addObject:[NSNumber numberWithInteger:1] ];
             outputTexture_attched.texture = CVMetalTextureGetTexture(uv_texture);
             CVBufferRelease(uv_texture);

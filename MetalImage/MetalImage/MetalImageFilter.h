@@ -16,7 +16,7 @@ typedef struct filterPipelineState
     
     MTLPixelFormat                      depthPixelFormat;
     MTLPixelFormat                      stencilPixelFormat;
-    NSUInteger                          sampleCount;
+    int                                 sampleCount;
     MetalImageRotationMode                   orient;
     __unsafe_unretained  NSString*      vertexFuncNameStr;
     __unsafe_unretained  NSString*      fragmentFuncNameStr;
@@ -29,6 +29,7 @@ METAL_PIPELINE_STATE;
 {
     MetalImageTexture*              firstInputTexture;
     MetalImageTexture*              secondInputTexture;
+    
     MetalImageCmdQueue*             filterCommandQueue;
     id <MTLComputePipelineState>    _caclpipelineState;
     
@@ -45,12 +46,15 @@ METAL_PIPELINE_STATE;
     BOOL                            isEndProcessing;
     CGSize                          currentFilterSize;
     MetalImageRotationMode          inputRotation;
+    int                             sampleCount;
+    id<MTLTexture>                  msaaTexture;
 }
 
 @property(readonly,  nonatomic)id <MTLDevice>              filterDevice;
 @property(readwrite, nonatomic)id <MTLBuffer>              verticsBuffer;
 @property(readwrite, nonatomic)id <MTLBuffer>              coordBuffer;
-
+@property(readwrite, nonatomic)id<MTLTexture>              msaaTexture;
+@property(readwrite, nonatomic)int                         sampleCount;
 @property(readwrite, nonatomic)id <MTLLibrary>             filterLibrary;
 @property(nonatomic)  MTLPixelFormat depthPixelFormat;
 @property(nonatomic)  MTLPixelFormat stencilPixelFormat;

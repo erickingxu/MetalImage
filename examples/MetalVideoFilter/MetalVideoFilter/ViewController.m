@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    algo_state = 1;
+    algo_state = 0;
     // Do any additional setup after loading the view, typically from a nib.
     [self startupVideo];
 }

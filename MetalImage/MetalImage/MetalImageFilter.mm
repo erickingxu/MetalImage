@@ -30,6 +30,8 @@ static const simd::float4 imageVertices[] = {
 @synthesize filterLibrary       = _filterLibrary;
 @synthesize depthPixelFormat    = _depthPixelFormat;
 @synthesize stencilPixelFormat  = _stencilPixelFormat;
+@synthesize sampleCount         = _sampleCount;
+@synthesize msaaTexture         = _msaaTexture;
 
 -(id)init
 {
@@ -42,7 +44,7 @@ static const simd::float4 imageVertices[] = {
     peline.computeFuncNameStr = @""; //"basePass";
     peline.vertexFuncNameStr  = @"imageQuadVertex";
     peline.fragmentFuncNameStr= @"imageQuadFragment";
-    
+    _sampleCount = peline.sampleCount;
     if ( !(self = [self initWithMetalPipeline: &peline]) || !_filterDevice)
     {
         return nil;
@@ -71,7 +73,7 @@ static const simd::float4 imageVertices[] = {
     _threadGroupSize = MTLSizeMake(16, 16, 1);
     _depthPixelFormat           = pline->depthPixelFormat;
     _stencilPixelFormat         = pline->stencilPixelFormat;
-    
+    _sampleCount                = pline->sampleCount;
     firstInputTexture           = nil;
     outputTexture               = nil;
     inputRotation               = pline->orient;
@@ -357,14 +359,29 @@ static const simd::float4 imageVertices[] = {
         renderPassDescriptor       = [MTLRenderPassDescriptor renderPassDescriptor];
     }
     MTLRenderPassColorAttachmentDescriptor    *colorAttachment  = renderPassDescriptor.colorAttachments[0];
-    colorAttachment.texture         = textureForOutput;//target for draw
+    colorAttachment.texture         = textureForOutput;
     colorAttachment.loadAction      = MTLLoadActionClear;
-    colorAttachment.clearColor      = MTLClearColorMake(0.0, 0.0, 1.0, 0.5);//black
-    colorAttachment.storeAction     = MTLStoreActionStore;
-    //colorAttachment usage is MTLTextureUsageRenderTarget;
-    //using default depth and stencil dscrptor...
-    
-    
+    colorAttachment.clearColor      = MTLClearColorMake(0.0, 1.0, 0.0, 0.8);//black
+    if (_sampleCount > 1)
+    {
+        BOOL doUpdate               = (_msaaTexture.width != textureForOutput.width) || (_msaaTexture.height != textureForOutput.height) || (_msaaTexture.sampleCount != _sampleCount);
+        if (!_msaaTexture || (_msaaTexture))
+        {
+            MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm width:textureForOutput.width height: textureForOutput.height mipmapped:NO];
+            desc.usage = MTLTextureUsageShaderRead|MTLTextureUsageShaderWrite|MTLTextureUsageRenderTarget;
+            desc.textureType        = MTLTextureType2DMultisample;
+            desc.sampleCount        = self.sampleCount;
+            _msaaTexture            = [_filterDevice newTextureWithDescriptor:desc];//load texture to gpu
+        }
+        colorAttachment.texture     = _msaaTexture;
+        colorAttachment.resolveTexture = textureForOutput;
+        colorAttachment.storeAction = MTLStoreActionMultisampleResolve;
+    }
+    else
+    {
+        colorAttachment.storeAction = MTLStoreActionStore;
+        colorAttachment.texture = textureForOutput;
+    }
     return YES;
 }
 

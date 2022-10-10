@@ -25,7 +25,7 @@
 }
 
 @synthesize currentDrawable         = _currentDrawable;
-
+@synthesize sampleCount             = _sampleCount;
 @synthesize verticsBuffer           = _verticsBuffer;
 @synthesize coordBuffer             = _coordBuffer;
 @synthesize pipelineState           = _pipelineState;
@@ -204,7 +204,7 @@ static const simd::float4 imageVertices[] = {
     renderLibrary                   = [_device newDefaultLibrary];
     self.depthPixelFormat           = MTLPixelFormatDepth32Float;
     self.stencilPixelFormat         = MTLPixelFormatInvalid;
-    self.sampleCount                = 1;
+    self.sampleCount                = 4;
     sharedRenderCommandBuffer       = nil;
     inputRotation                   = kMetalImageFlipHorizonal;
     //set output texture and draw reslut to it
@@ -249,7 +249,7 @@ static const simd::float4 imageVertices[] = {
     pQuadPipelineStateDescriptor.depthAttachmentPixelFormat      = MTLPixelFormatDepth32Float;
     pQuadPipelineStateDescriptor.stencilAttachmentPixelFormat    = MTLPixelFormatInvalid;
     pQuadPipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
-    pQuadPipelineStateDescriptor.sampleCount                     = 1;
+    pQuadPipelineStateDescriptor.sampleCount                     = _sampleCount;
     pQuadPipelineStateDescriptor.vertexFunction                  = vertexProgram;
     pQuadPipelineStateDescriptor.fragmentFunction                = fragmentProgram;
     
@@ -300,13 +300,14 @@ static const simd::float4 imageVertices[] = {
     MTLRenderPassColorAttachmentDescriptor    *colorAttachment  = renderPassDescriptor.colorAttachments[0];
     colorAttachment.texture         = textureForDraw;
     colorAttachment.loadAction      = MTLLoadActionClear;
-    colorAttachment.clearColor      = MTLClearColorMake(0.0, 0.0, 1.0, 0.8);//black
+    colorAttachment.clearColor      = MTLClearColorMake(0.0, 1.0, 0.0, 0.8);//black
     if (_sampleCount > 1)
     {
         BOOL doUpdate               = (_msaaTexture.width != textureForDraw.width) || (_msaaTexture.height != textureForDraw.height) || (_msaaTexture.sampleCount != _sampleCount);
         if (!_msaaTexture || (_msaaTexture && doUpdate))
         {
             MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm width:textureForDraw.width height: textureForDraw.height mipmapped:NO];
+            desc.usage = MTLTextureUsageShaderRead|MTLTextureUsageShaderWrite|MTLTextureUsageRenderTarget;
             desc.textureType        = MTLTextureType2DMultisample;
             desc.sampleCount        = _sampleCount;
             _msaaTexture            = [_device newTextureWithDescriptor:desc];//load texture to gpu
@@ -336,7 +337,7 @@ static const simd::float4 imageVertices[] = {
             
             desc.textureType = (_sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
             desc.sampleCount = _sampleCount;
-            desc.usage = MTLTextureUsageRenderTarget;
+            desc.usage = MTLTextureUsageShaderRead|MTLTextureUsageShaderWrite|MTLTextureUsageRenderTarget;
             _depthTexture = [_device newTextureWithDescriptor: desc];
           
             MTLRenderPassDepthAttachmentDescriptor *depthAttachment = renderPassDescriptor.depthAttachment;
@@ -403,6 +404,7 @@ static const simd::float4 imageVertices[] = {
             CGSize drawableSize = self.bounds.size;
             drawableSize.width  *= self.contentScaleFactor;
             drawableSize.height *= self.contentScaleFactor;
+            
             if (drawableSize.width == 0 || drawableSize.height == 0) {
                 drawableSize.width = 1;
                 drawableSize.height = 1;
